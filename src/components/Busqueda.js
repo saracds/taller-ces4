@@ -6,9 +6,9 @@ import { BsSearch } from "react-icons/bs";
 const Busqueda = () => {
     return (
 
-            <Row>
+            <Row className='text-left justify-content-md-left'>
                 <Col>
-                    <InputGroup className="mb-3 Search-input" size='sm'>
+                    <InputGroup className="mb-3 Search-input ml-0" size='sm'>
                         <InputGroup.Text id="buscar"><BsSearch /></InputGroup.Text>
                         <FormControl
                             placeholder="Buscar ..."

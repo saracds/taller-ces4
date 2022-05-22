@@ -5,7 +5,7 @@ import React from 'react';
 const RegistroEditar = () => {
 
   return (
-    <Card className='col-5 text-center'>
+    <Card className='text-center'>
       <Card.Body>
         <Card.Title>Registro</Card.Title>
         <hr/>
