@@ -1,24 +1,33 @@
 import React from 'react'
 
-import { Container, Badge } from 'react-bootstrap';
+import { Badge, Card, ListGroup, Row, Col } from 'react-bootstrap';
 
 import Busqueda from './Busqueda';
 import MovimientoItem from './MovimientoItem';
 
 const MovimientosList = () => {
     return (
-        <Container className="justify-content-lg-center m-3" >
-            <h1 className='MovimientosList-container__title'>Listado  Movimientos   <Badge bg="primary">9</Badge></h1>
+        <Card className='text-center'>
+      <Card.Body>
+        <Card.Title className='justify-content-betwee'>
+            <Row>
+                <Col>
+                    Listado Movimientos 
+                </Col>
+                <Col>
+                    <Badge bg="primary">9</Badge> 
+                </Col>
+            </Row>
+        </Card.Title>
+        <hr/>
+        <Card.Text>
             <Busqueda/>
-            <div className='MovimientosList-container'>
-                <ul>
-                    <li>
-                        <MovimientoItem />
-                    </li>
-
-                </ul>
-            </div>
-        </Container>
+            <ListGroup as = "ul">
+                <ListGroup.Item> <MovimientoItem /> </ListGroup.Item>
+            </ListGroup>
+        </Card.Text>
+      </Card.Body>
+    </Card>
     )
 }
 
