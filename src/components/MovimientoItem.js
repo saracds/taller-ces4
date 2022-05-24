@@ -6,18 +6,16 @@ import { Row, Col} from 'react-bootstrap';
 import { Badge } from 'react-bootstrap';
 
 
-const MovimientoItem = () => {
+const MovimientoItem = ({nombre, cantidad, tipoMovimiento}) => {
     return (
             <Row>
                 <Col lg = "2"> 
                     <BsXLg className='MovimientoItem-icon'/>
                     <BsPencil className='MovimientoItem-icon'/>
                 </Col>
+                <Col lg = "5">{nombre}</Col>
                 <Col lg = "5">
-                    Salario Freelance
-                </Col>
-                <Col lg = "5">
-                    <Badge bg="success">7,000,000</Badge>
+                    <Badge bg= {`${tipoMovimiento === "Gasto" ? "danger" : "success"}`}>{cantidad}</Badge>
                 </Col>
             </Row>
     )

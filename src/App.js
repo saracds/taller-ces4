@@ -1,22 +1,27 @@
-import React, { useState } from 'react'
-import { Button } from 'react-bootstrap';
+import React, { useState } from "react";
+import { Row, Col } from "react-bootstrap";
+import { v4 as uuidv4 } from "uuid";
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css'
-import { Row, Col, InputGroup, FormControl } from 'react-bootstrap';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
 
-import MovimientosList from './components/MovimientosList';
-import RegistroEditar from './components/RegistroEditar';
-
+import MovimientosList from "./components/MovimientosList";
+import RegistroEditar from "./components/RegistroEditar";
+import Header from "./components/Header";
+import ModalMessage from "./components/ModalMessage";
 
 function App() {
+  const initialState = { tipo_movimiento: "", nombre: "", cantidad: "" };
+  let title;
+  let body;
 
-  const [movimiento, setMovimiento] = useState({ tipo_movimiento: "", nombre: "", cantidad: "" });
+  const [movimiento, setMovimiento] = useState(initialState);
   const [movimientos, setMovimientos] = useState([]);
 
   const [inicial, setInicial] = useState(0);
   const [final, setFinal] = useState(0);
   const [show, setShow] = useState(false);
+  const [message, setMessage] = useState({title:"", body:""});
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -25,37 +30,45 @@ function App() {
     setMovimiento({ ...movimiento, [name]: value });
   };
 
+  const handleCancelar = () => setMovimiento(initialState);
+
+  const handleAgregarMovimiento = () => {
+    if(movimiento.tipo_movimiento === "Gasto" && final <= 0){
+      setMessage({title:"ERROR", body:"No cuenta con saldo suficiente para realizar este movimiento"})
+      handleShow();
+    }else{
+      setMovimientos([...movimientos, { ...movimiento, id: uuidv4() }]);
+    }
+  };
+
   const handleSaldoIncial = ({ target: { value } }) => setInicial(value);
 
   return (
-    <div className='m-5'>
+    <div className="m-5">
       <div>
-        <Row className='mt-3'>
-          <Col lg="8">
-            <h1>Egresos e Ingresos</h1>
-          </Col>
-          <Col lg="2">
-            <label>Saldo Inicial</label>
-            <FormControl type='number' size='sm' value={inicial} onChange={handleSaldoIncial} />
-          </Col>
-          <Col lg="2">
-            <label>Saldo Final</label>
-            <FormControl type='number' value={final} size='sm' disabled />
-          </Col>
-        </Row>
-
+        <Header
+          inicial={inicial}
+            handleSaldoIncial={handleSaldoIncial}
+          final={final}
+        />
       </div>
       <br />
       <hr />
       <br />
       <Row>
         <Col lg="5">
-          <RegistroEditar movimiento={movimiento} handleMovimiento={handleMovimiento} />
+          <RegistroEditar
+            movimiento={movimiento}
+            handleMovimiento={handleMovimiento}
+            handleAgregarMovimiento={handleAgregarMovimiento}
+            handleCancelar = {handleCancelar}
+          />
         </Col>
         <Col lg="7">
-          <MovimientosList />
+          <MovimientosList movimientos = {movimientos}/>
         </Col>
       </Row>
+      <ModalMessage show = {show} handleClose = {handleClose} title = {message.title} body = {message.body}/>
     </div>
   );
 }
