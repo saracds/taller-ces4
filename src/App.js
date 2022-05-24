@@ -23,7 +23,6 @@ function App() {
 
   const handleMovimiento = (name, value) => {
     setMovimiento({ ...movimiento, [name]: value });
-    console.log(name, value)
   };
 
   const handleSaldoIncial = ({ target: { value } }) => setInicial(value);
