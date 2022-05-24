@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 
+
 import { Form, Button, Row, Col, Card, InputGroup, FormControl } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
-const RegistroEditar = ({ movimiento, handleMovimiento }) => {
+const RegistroEditar = ({ movimiento, handleMovimiento, handleAgregarMovimiento, handleCancelar }) => {
 
   const { tipo_movimiento, nombre, cantidad } = movimiento;
 
@@ -13,10 +14,11 @@ const RegistroEditar = ({ movimiento, handleMovimiento }) => {
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
-      event.preventDefault();
       event.stopPropagation();
+    }else{
+      handleAgregarMovimiento();
     }
-
+    event.preventDefault();
     setValidated(true);
   };
 
@@ -39,10 +41,13 @@ const RegistroEditar = ({ movimiento, handleMovimiento }) => {
                     onChange={e => handleMovimiento("tipo_movimiento", e.target.value)}
                     required
                   >
-                    <option>Seleccione una opción</option>
+                    <option></option>
                     <option value="Ingreso">Ingreso</option>
                     <option value="Gasto">Gasto</option>
                   </Form.Select>
+                  <Form.Control.Feedback type="invalid">
+                    Seleccione el tipo
+                  </Form.Control.Feedback>
                 </Col>
               </Row>
             </Form.Group>
@@ -62,10 +67,12 @@ const RegistroEditar = ({ movimiento, handleMovimiento }) => {
                       onChange={e => handleMovimiento("nombre", e.target.value)}
                       required
                     />
+                    <Form.Control.Feedback type="invalid">
+                      Ingrese el nombre
+                    </Form.Control.Feedback>
                   </InputGroup>
                 </Col>
               </Row>
-              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </Form.Group>
             <br />
             <Form.Group className='col' controlId="validationCantidad">
@@ -82,11 +89,11 @@ const RegistroEditar = ({ movimiento, handleMovimiento }) => {
                     onChange={e => handleMovimiento("cantidad", e.target.value)}
                     required
                   />
+                  <Form.Control.Feedback type="invalid">
+                    Ingrese el valor
+                  </Form.Control.Feedback>
                 </Col>
               </Row>
-              <Form.Control.Feedback type="invalid">
-              Please choose a .
-            </Form.Control.Feedback>
             </Form.Group>
 
             <br />
@@ -96,7 +103,7 @@ const RegistroEditar = ({ movimiento, handleMovimiento }) => {
             <div className='text-center jsutify-content-around'>
               <Row>
                 <Col md="6">
-                  <Button variant="primary" type="submit">Cancelar</Button>
+                  <Button variant="primary" type="button" onClick={handleCancelar}>Cancelar</Button>
                 </Col>
                 <Col md="6">
                   <Button variant="primary" type="submit">Agregar Movimiento</Button>
