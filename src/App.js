@@ -21,7 +21,7 @@ function App() {
   const [inicial, setInicial] = useState(0);
   const [final, setFinal] = useState(0);
   const [show, setShow] = useState(false);
-  const [message, setMessage] = useState({title:"", body:""});
+  const [message, setMessage] = useState({ title: "", body: "" });
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -33,10 +33,10 @@ function App() {
   const handleCancelar = () => setMovimiento(initialState);
 
   const handleAgregarMovimiento = () => {
-    if(movimiento.tipo_movimiento === "Gasto" && final <= 0){
-      setMessage({title:"ERROR", body:"No cuenta con saldo suficiente para realizar este movimiento"})
+    if (movimiento.tipo_movimiento === "Gasto" && final <= 0) {
+      setMessage({ title: "ERROR", body: "No cuenta con saldo suficiente para realizar este movimiento" })
       handleShow();
-    }else{
+    } else {
       setMovimientos([...movimientos, { ...movimiento, id: uuidv4() }]);
     }
   };
@@ -48,7 +48,7 @@ function App() {
       <div>
         <Header
           inicial={inicial}
-            handleSaldoIncial={handleSaldoIncial}
+          handleSaldoIncial={handleSaldoIncial}
           final={final}
         />
       </div>
@@ -61,14 +61,24 @@ function App() {
             movimiento={movimiento}
             handleMovimiento={handleMovimiento}
             handleAgregarMovimiento={handleAgregarMovimiento}
-            handleCancelar = {handleCancelar}
+            handleCancelar={handleCancelar}
           />
         </Col>
         <Col lg="7">
-          <MovimientosList movimientos = {movimientos}/>
+          <MovimientosList
+            movimientos={movimientos}
+            setMovimientos={setMovimientos}
+            handleClose={handleClose}
+            handleShow = {handleShow}
+            show = {show}
+            movimiento={movimiento}
+            handleMovimiento={handleMovimiento}
+            handleAgregarMovimiento={handleAgregarMovimiento}
+            handleCancelar={handleCancelar}
+          />
         </Col>
       </Row>
-      <ModalMessage show = {show} handleClose = {handleClose} title = {message.title} body = {message.body}/>
+      <ModalMessage show={show} handleClose={handleClose} title={message.title} body={message.body} />
     </div>
   );
 }

@@ -5,7 +5,12 @@ import { Badge, Card, ListGroup, Row, Col } from "react-bootstrap";
 import Busqueda from "./Busqueda";
 import MovimientoItem from "./MovimientoItem";
 
-const MovimientosList = ({ movimientos }) => {
+const MovimientosList = ({ movimientos, setMovimientos, handleClose, handleShow, show , handleMovimiento, handleAgregarMovimiento}) => {
+
+  const handleDelete = (id) => {
+    setMovimientos(movimientos.filter((movimiento) => movimiento.id != id));
+  };
+
   return (
     <Card className="text-center">
       <Card.Body>
@@ -22,12 +27,16 @@ const MovimientosList = ({ movimientos }) => {
           <Busqueda />
           <ListGroup as="ul">
             {movimientos.map((movimiento) => (
-              <ListGroup.Item>
-                <MovimientoItem 
-                    key={movimiento.id}
-                    nombre = {movimiento.nombre}
-                    cantidad = {movimiento.cantidad}
-                    tipoMovimiento = {movimiento.tipo_movimiento} />
+              <ListGroup.Item key={movimiento.id}>
+                <MovimientoItem
+                  movimiento={movimiento}
+                  handleDelete={handleDelete}
+                  handleClose={handleClose}
+                  handleShow={handleShow}
+                  show={show}
+                  handleMovimiento={handleMovimiento}
+                  handleAgregarMovimiento={handleAgregarMovimiento}
+                />
               </ListGroup.Item>
             ))}
           </ListGroup>
