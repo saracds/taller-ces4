@@ -58,6 +58,7 @@ function App() {
       <Row>
         <Col lg="5">
           <RegistroEditar
+            title="Registro"
             movimiento={movimiento}
             handleMovimiento={handleMovimiento}
             handleAgregarMovimiento={handleAgregarMovimiento}
@@ -68,9 +69,6 @@ function App() {
           <MovimientosList
             movimientos={movimientos}
             setMovimientos={setMovimientos}
-            handleClose={handleClose}
-            handleShow = {handleShow}
-            show = {show}
             movimiento={movimiento}
             handleMovimiento={handleMovimiento}
             handleAgregarMovimiento={handleAgregarMovimiento}
