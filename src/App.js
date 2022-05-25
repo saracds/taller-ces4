@@ -12,8 +12,6 @@ import ModalMessage from "./components/ModalMessage";
 
 function App() {
   const initialState = { tipo_movimiento: "", nombre: "", cantidad: "" };
-  let title;
-  let body;
 
   const [movimiento, setMovimiento] = useState(initialState);
   const [movimientos, setMovimientos] = useState([]);
@@ -30,6 +28,17 @@ function App() {
     setMovimiento({ ...movimiento, [name]: value });
   };
 
+  const handleCalculoFinal = () =>{
+    let IngresosTotal = movimientos.filter((movimiento) => movimiento.tipo_movimiento === "Ingreso")
+                          .reduce((IngresoTotalAc, mov) => IngresoTotalAc += parseInt(mov.cantidad),0);
+    let GastosTotal = movimientos.filter((movimiento) => movimiento.tipo_movimiento === "Gasto")
+                          .reduce((GastoTotalAc, mov) => GastoTotalAc+= parseInt(mov.cantidad),0);
+    
+      setFinal(parseInt(inicial) + (parseInt(IngresosTotal) - parseInt(GastosTotal)));
+      console.log(`saldo inicila: ${inicial}, Ingresos Total: ${IngresosTotal}, Gastos Total: ${GastosTotal}, movimientos: ${movimientos.length}`);
+      console.log(movimientos);
+  };
+
   const handleCancelar = () => setMovimiento(initialState);
 
   const handleAgregarMovimiento = () => {
@@ -38,6 +47,7 @@ function App() {
       handleShow();
     } else {
       setMovimientos([...movimientos, { ...movimiento, id: uuidv4() }]);
+      handleCalculoFinal();
     }
   };
 
@@ -50,6 +60,7 @@ function App() {
           inicial={inicial}
           handleSaldoIncial={handleSaldoIncial}
           final={final}
+          movimientos={movimientos} 
         />
       </div>
       <br />
@@ -63,6 +74,7 @@ function App() {
             handleMovimiento={handleMovimiento}
             handleAgregarMovimiento={handleAgregarMovimiento}
             handleCancelar={handleCancelar}
+            handleCalculoFinal = {handleCalculoFinal}
           />
         </Col>
         <Col lg="7">
@@ -73,6 +85,7 @@ function App() {
             handleMovimiento={handleMovimiento}
             handleAgregarMovimiento={handleAgregarMovimiento}
             handleCancelar={handleCancelar}
+            handleCalculoFinal = {handleCalculoFinal}
           />
         </Col>
       </Row>

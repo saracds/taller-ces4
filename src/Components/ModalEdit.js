@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Modal, Button } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 
 import RegistroEditar from './RegistroEditar';
 
@@ -9,7 +9,7 @@ const ModalEdit = ({ show, handleClose, movimiento, handleMovimiento, handleAgre
         <Modal show={show} onHide={handleClose}>
             <Modal.Body>
                 <RegistroEditar
-                    title="Editar"
+                    title="Editar Movimiento"
                     movimiento={movimiento}
                     handleMovimiento={handleMovimiento}
                     handleAgregarMovimiento={handleAgregarMovimiento}

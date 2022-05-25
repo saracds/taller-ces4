@@ -5,7 +5,7 @@ import { Form, Button, Row, Col, Card, InputGroup, FormControl } from 'react-boo
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
-const RegistroEditar = ({ title, movimiento, handleMovimiento, handleAgregarMovimiento, handleCancelar }) => {
+const RegistroEditar = ({ title, movimiento, handleMovimiento, handleAgregarMovimiento, handleCancelar, handleCalculoFinal }) => {
 
   const { tipo_movimiento, nombre, cantidad } = movimiento;
 
@@ -21,6 +21,7 @@ const RegistroEditar = ({ title, movimiento, handleMovimiento, handleAgregarMovi
     event.preventDefault();
     setValidated(true);
   };
+
 
 
   return (

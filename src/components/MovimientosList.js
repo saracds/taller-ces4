@@ -5,11 +5,12 @@ import { Badge, Card, ListGroup, Row, Col } from "react-bootstrap";
 import Busqueda from "./Busqueda";
 import MovimientoItem from "./MovimientoItem";
 
-const MovimientosList = ({ movimientos, setMovimientos, handleMovimiento, handleAgregarMovimiento}) => {
+const MovimientosList = ({ movimientos, setMovimientos, handleMovimiento, handleAgregarMovimiento, handleCalculoFinal}) => {
 
 
   const handleDelete = (id) => {
-    setMovimientos(movimientos.filter((movimiento) => movimiento.id != id));
+    setMovimientos(movimientos.filter((movimiento) => movimiento.id !== id));
+    handleCalculoFinal();
   };
 
   return (

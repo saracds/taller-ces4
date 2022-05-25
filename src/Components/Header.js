@@ -1,7 +1,10 @@
 import React from 'react';
 import { Row, Col, FormControl } from 'react-bootstrap';
 
-const Header = ({inicial, handleSaldoIncial, final}) => {
+const Header = ({inicial, handleSaldoIncial, final, movimientos}) => {
+
+  
+
   return (
     <div>
       <Row className='mt-3'>
