@@ -8,7 +8,7 @@ import { Badge } from 'react-bootstrap';
 import ModalEdit from './ModalEdit';
 
 
-const MovimientoItem = ({ handleDelete, movimiento, handleMovimiento, handleAgregarMovimiento }) => {
+const MovimientoItem = ({ handleDelete, movimiento, handleMovimiento, handleAgregarMovimiento, formatNumber }) => {
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -22,7 +22,7 @@ const MovimientoItem = ({ handleDelete, movimiento, handleMovimiento, handleAgre
             </Col>
             <Col lg="5">{movimiento.nombre}</Col>
             <Col lg="5">
-                <Badge bg={`${movimiento.tipo_movimiento === "Gasto" ? "danger" : "success"}`}>{movimiento.cantidad}</Badge>
+                <Badge bg={`${movimiento.tipo_movimiento === "Gasto" ? "danger" : "success"}`}>{formatNumber(movimiento.cantidad)}</Badge>
             </Col>
             <ModalEdit
                 show={show}

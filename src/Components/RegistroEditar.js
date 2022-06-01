@@ -5,24 +5,43 @@ import { Form, Button, Row, Col, Card, InputGroup, FormControl } from 'react-boo
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
-const RegistroEditar = ({ title, movimiento, handleMovimiento, handleAgregarMovimiento, handleCancelar, handleCalculoFinal }) => {
+const RegistroEditar = ({ title, movimiento, handleMovimiento, handleAgregarMovimiento, handleCancelar, buttonName }) => {
 
   const { tipo_movimiento, nombre, cantidad } = movimiento;
 
   const [validated, setValidated] = useState(false);
+  const [invalid, setInvalid] = useState(false);
+
+  const validarFormulario = () =>{
+   if(tipo_movimiento.length == 0){
+     return false;
+   }
+   if(nombre.length == 0){
+     return false;
+   }
+   if(cantidad <= 0){
+     setInvalid(true);
+     return false;
+   }else{
+    setInvalid(false);
+   }
+ 
+   return true;
+  };
 
   const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log("validacion",validarFormulario());
     const form = event.currentTarget;
+    console.log(form);
+
     if (form.checkValidity() === false) {
       event.stopPropagation();
     }else{
       handleAgregarMovimiento();
     }
-    event.preventDefault();
-    setValidated(true);
+    setValidated(true)
   };
-
-
 
   return (
     <Card className='text-center'>
@@ -89,9 +108,10 @@ const RegistroEditar = ({ title, movimiento, handleMovimiento, handleAgregarMovi
                     value={cantidad}
                     onChange={e => handleMovimiento("cantidad", e.target.value)}
                     required
+
                   />
                   <Form.Control.Feedback type="invalid">
-                    Ingrese el valor
+                   La cantidad debe ser mayor a cero
                   </Form.Control.Feedback>
                 </Col>
               </Row>
@@ -107,7 +127,7 @@ const RegistroEditar = ({ title, movimiento, handleMovimiento, handleAgregarMovi
                   <Button variant="primary" type="button" onClick={handleCancelar}>Cancelar</Button>
                 </Col>
                 <Col md="6">
-                  <Button variant="primary" type="submit">Agregar Movimiento</Button>
+                  <Button variant="primary" type="submit">{buttonName}</Button>
                 </Col>
               </Row>
             </div>

@@ -31,11 +31,14 @@ function App() {
   const handleCalculoFinal = () =>{
     let IngresosTotal = movimientos.filter((movimiento) => movimiento.tipo_movimiento === "Ingreso")
                           .reduce((IngresoTotalAc, mov) => IngresoTotalAc += parseInt(mov.cantidad),0);
+
     let GastosTotal = movimientos.filter((movimiento) => movimiento.tipo_movimiento === "Gasto")
                           .reduce((GastoTotalAc, mov) => GastoTotalAc+= parseInt(mov.cantidad),0);
-    
-      setFinal(parseInt(inicial) + (parseInt(IngresosTotal) - parseInt(GastosTotal)));
-      console.log(`saldo inicila: ${inicial}, Ingresos Total: ${IngresosTotal}, Gastos Total: ${GastosTotal}, movimientos: ${movimientos.length}`);
+
+    let totalFinal = (parseInt(inicial) + (parseInt(IngresosTotal) - parseInt(GastosTotal)));
+
+      setFinal(formatNumber(totalFinal));
+      console.log(`saldo inicial: ${inicial}, Ingresos Total: ${IngresosTotal}, Gastos Total: ${GastosTotal}, movimientos: ${movimientos.length}, final :${totalFinal}`);
       console.log(movimientos);
   };
 
@@ -51,6 +54,10 @@ function App() {
     }
   };
 
+  const formatNumber = function(number){
+    return new Intl.NumberFormat('ES-CO', {style: 'currency',currency: 'COP', minimumFractionDigits: 2}).format(number);
+};
+
   const handleSaldoIncial = ({ target: { value } }) => setInicial(value);
 
   return (
@@ -61,6 +68,7 @@ function App() {
           handleSaldoIncial={handleSaldoIncial}
           final={final}
           movimientos={movimientos} 
+          formatNumber = {formatNumber}
         />
       </div>
       <br />
@@ -70,6 +78,7 @@ function App() {
         <Col lg="5">
           <RegistroEditar
             title="Registro"
+            buttonName = "Agregar Movimiento"
             movimiento={movimiento}
             handleMovimiento={handleMovimiento}
             handleAgregarMovimiento={handleAgregarMovimiento}
@@ -86,6 +95,7 @@ function App() {
             handleAgregarMovimiento={handleAgregarMovimiento}
             handleCancelar={handleCancelar}
             handleCalculoFinal = {handleCalculoFinal}
+            formatNumber = {formatNumber}
           />
         </Col>
       </Row>

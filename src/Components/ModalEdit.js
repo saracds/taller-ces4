@@ -10,6 +10,7 @@ const ModalEdit = ({ show, handleClose, movimiento, handleMovimiento, handleAgre
             <Modal.Body>
                 <RegistroEditar
                     title="Editar Movimiento"
+                    buttonName= "Guardar Cambios"
                     movimiento={movimiento}
                     handleMovimiento={handleMovimiento}
                     handleAgregarMovimiento={handleAgregarMovimiento}

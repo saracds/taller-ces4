@@ -1,9 +1,7 @@
 import React from 'react';
 import { Row, Col, FormControl } from 'react-bootstrap';
 
-const Header = ({inicial, handleSaldoIncial, final, movimientos}) => {
-
-  
+const Header = ({inicial, handleSaldoIncial, final}) => {
 
   return (
     <div>
@@ -17,7 +15,7 @@ const Header = ({inicial, handleSaldoIncial, final, movimientos}) => {
           </Col>
           <Col lg="2">
             <label>Saldo Final</label>
-            <FormControl type='number' value={final} size='sm' disabled />
+            <FormControl type='text' value={final} size='sm' disabled />
           </Col>
         </Row>
     </div>
