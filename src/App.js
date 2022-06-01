@@ -17,6 +17,7 @@ function App() {
   const [movimientos, setMovimientos] = useState([]);
 
   const [inicial, setInicial] = useState(0);
+
   const [final, setFinal] = useState(0);
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState({ title: "", body: "" });
@@ -28,18 +29,20 @@ function App() {
     setMovimiento({ ...movimiento, [name]: value });
   };
 
-  const handleCalculoFinal = () =>{
+  const CalculoFinal = () => {
+    console.log(movimiento);
     let IngresosTotal = movimientos.filter((movimiento) => movimiento.tipo_movimiento === "Ingreso")
-                          .reduce((IngresoTotalAc, mov) => IngresoTotalAc += parseInt(mov.cantidad),0);
+      .reduce((IngresoTotalAc, mov) => IngresoTotalAc += parseInt(mov.cantidad), 0);
 
     let GastosTotal = movimientos.filter((movimiento) => movimiento.tipo_movimiento === "Gasto")
-                          .reduce((GastoTotalAc, mov) => GastoTotalAc+= parseInt(mov.cantidad),0);
+      .reduce((GastoTotalAc, mov) => GastoTotalAc += parseInt(mov.cantidad), 0);
 
     let totalFinal = (parseInt(inicial) + (parseInt(IngresosTotal) - parseInt(GastosTotal)));
 
-      setFinal(formatNumber(totalFinal));
-      console.log(`saldo inicial: ${inicial}, Ingresos Total: ${IngresosTotal}, Gastos Total: ${GastosTotal}, movimientos: ${movimientos.length}, final :${totalFinal}`);
-      console.log(movimientos);
+    totalFinal = (parseInt(inicial) + (parseInt(IngresosTotal) - parseInt(GastosTotal)));
+
+    setFinal(formatNumber(totalFinal));
+
   };
 
   const handleCancelar = () => setMovimiento(initialState);
@@ -50,13 +53,13 @@ function App() {
       handleShow();
     } else {
       setMovimientos([...movimientos, { ...movimiento, id: uuidv4() }]);
-      handleCalculoFinal();
+      CalculoFinal();
     }
   };
 
-  const formatNumber = function(number){
-    return new Intl.NumberFormat('ES-CO', {style: 'currency',currency: 'COP', minimumFractionDigits: 2}).format(number);
-};
+  const formatNumber = function (number) {
+    return new Intl.NumberFormat('ES-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(number);
+  };
 
   const handleSaldoIncial = ({ target: { value } }) => setInicial(value);
 
@@ -67,8 +70,8 @@ function App() {
           inicial={inicial}
           handleSaldoIncial={handleSaldoIncial}
           final={final}
-          movimientos={movimientos} 
-          formatNumber = {formatNumber}
+          movimientos={movimientos}
+          formatNumber={formatNumber}
         />
       </div>
       <br />
@@ -78,12 +81,12 @@ function App() {
         <Col lg="5">
           <RegistroEditar
             title="Registro"
-            buttonName = "Agregar Movimiento"
+            buttonName="Agregar Movimiento"
             movimiento={movimiento}
             handleMovimiento={handleMovimiento}
             handleAgregarMovimiento={handleAgregarMovimiento}
             handleCancelar={handleCancelar}
-            handleCalculoFinal = {handleCalculoFinal}
+            handleCalculoFinal={CalculoFinal}
           />
         </Col>
         <Col lg="7">
@@ -94,8 +97,8 @@ function App() {
             handleMovimiento={handleMovimiento}
             handleAgregarMovimiento={handleAgregarMovimiento}
             handleCancelar={handleCancelar}
-            handleCalculoFinal = {handleCalculoFinal}
-            formatNumber = {formatNumber}
+            handleCalculoFinal={CalculoFinal}
+            formatNumber={formatNumber}
           />
         </Col>
       </Row>
