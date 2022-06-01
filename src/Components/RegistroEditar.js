@@ -1,16 +1,23 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect} from 'react';
 
 import { Form, Button, Row, Col, Card, InputGroup, FormControl } from 'react-bootstrap';
+import ModalMessage from "../components/ModalMessage";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import { v4 as uuidv4 } from "uuid";
 
-const RegistroEditar = ({ title, movimiento, handleMovimiento, handleAgregarMovimiento, handleCancelar, buttonName }) => {
+const RegistroEditar = ({ title, movimiento, handleCancelar, buttonName, editar,setMovimiento, setMovimientos,movimientos, setEditar, final }) => {
 
   const { tipo_movimiento, nombre, cantidad } = movimiento;
 
   const [validated, setValidated] = useState(false);
   const [invalid, setInvalid] = useState(false);
+  const [show, setShow] = useState(false);
+  const [message, setMessage] = useState({ title: "", body: "" });
+  
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
 
   const validarFormulario = () =>{
    if(tipo_movimiento.length == 0){
@@ -43,6 +50,41 @@ const RegistroEditar = ({ title, movimiento, handleMovimiento, handleAgregarMovi
     setValidated(true)
   };
 
+  const handleMovimiento = (name, value) => {
+    setMovimiento({ ...movimiento, [name]: value });
+  };
+
+  const handleAgregarMovimiento = () => {
+
+    if(editar){
+      Editar(movimiento.id, movimiento.tipo_movimiento, movimiento.nombre, movimiento.cantidad);
+    }else{
+      if (movimiento.tipo_movimiento === "Gasto" && final <= 0) {
+        setMessage({ title: "ERROR", body: "No cuenta con saldo suficiente para realizar este movimiento" })
+        handleShow();
+      } else {
+        setMovimientos([...movimientos, { ...movimiento, id: uuidv4() }]);
+        console.log(movimientos.length)
+      }
+    }
+  };
+  
+  const Editar = (id, tipo_movimiento, nombre, cantidad) =>{
+    const nuevoMovimiento = movimientos.map((movimiento) => movimiento.id === id ? {id, tipo_movimiento, nombre, cantidad} : movimiento);
+    setMovimientos(nuevoMovimiento);
+    setEditar(null);
+  };
+
+  useEffect(() => {
+    if(editar){
+      console.log("entro")
+       setMovimiento(editar);
+    }else{
+      setMovimiento({ tipo_movimiento: "", nombre: "", cantidad: "" });
+    }
+   }, [setMovimiento, editar]);
+  
+   
   return (
     <Card className='text-center'>
       <Card.Body>
@@ -134,6 +176,7 @@ const RegistroEditar = ({ title, movimiento, handleMovimiento, handleAgregarMovi
           </Form>
         </Card.Text>
       </Card.Body>
+      <ModalMessage show={show} handleClose={handleClose} title={message.title} body={message.body} />
     </Card>
   );
 };

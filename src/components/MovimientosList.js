@@ -5,7 +5,7 @@ import { Badge, Card, ListGroup, Row, Col } from "react-bootstrap";
 import Busqueda from "./Busqueda";
 import MovimientoItem from "./MovimientoItem";
 
-const MovimientosList = ({ movimientos, setMovimientos, handleMovimiento, handleAgregarMovimiento, handleCalculoFinal, formatNumber}) => {
+const MovimientosList = ({ movimientos, setMovimientos, handleCalculoFinal, formatNumber, setEditar, editar, setMovimiento, final}) => {
 
 
   const handleDelete = (id) => {
@@ -33,9 +33,13 @@ const MovimientosList = ({ movimientos, setMovimientos, handleMovimiento, handle
                 <MovimientoItem
                   movimiento={movimiento}
                   handleDelete={handleDelete}
-                  handleMovimiento={handleMovimiento}
-                  handleAgregarMovimiento={handleAgregarMovimiento}
                   formatNumber = {formatNumber}
+                  setEditar = {setEditar}
+                  editar = {editar}
+                  setMovimiento = {setMovimiento}
+                  setMovimientos = {setMovimientos}
+                  movimientos={movimientos}
+                  final = {final}
                 />
               </ListGroup.Item>
             ))}

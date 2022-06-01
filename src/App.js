@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
-import { v4 as uuidv4 } from "uuid";
+
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
@@ -8,7 +8,7 @@ import "./App.css";
 import MovimientosList from "./components/MovimientosList";
 import RegistroEditar from "./components/RegistroEditar";
 import Header from "./components/Header";
-import ModalMessage from "./components/ModalMessage";
+
 
 function App() {
   const initialState = { tipo_movimiento: "", nombre: "", cantidad: "" };
@@ -19,15 +19,8 @@ function App() {
   const [inicial, setInicial] = useState(0);
 
   const [final, setFinal] = useState(0);
-  const [show, setShow] = useState(false);
-  const [message, setMessage] = useState({ title: "", body: "" });
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-  const handleMovimiento = (name, value) => {
-    setMovimiento({ ...movimiento, [name]: value });
-  };
+ 
+  const [editar, setEditar] = useState(null);
 
   const CalculoFinal = () => {
     console.log(movimiento);
@@ -47,19 +40,9 @@ function App() {
 
   const handleCancelar = () => setMovimiento(initialState);
 
-  const handleAgregarMovimiento = () => {
-    if (movimiento.tipo_movimiento === "Gasto" && final <= 0) {
-      setMessage({ title: "ERROR", body: "No cuenta con saldo suficiente para realizar este movimiento" })
-      handleShow();
-    } else {
-      setMovimientos([...movimientos, { ...movimiento, id: uuidv4() }]);
-      CalculoFinal();
-    }
-  };
-
-  const formatNumber = function (number) {
-    return new Intl.NumberFormat('ES-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(number);
-  };
+  const formatNumber = function(number){
+    return new Intl.NumberFormat('ES-CO', {style: 'currency',currency: 'COP', minimumFractionDigits: 2}).format(number);
+};
 
   const handleSaldoIncial = ({ target: { value } }) => setInicial(value);
 
@@ -83,10 +66,13 @@ function App() {
             title="Registro"
             buttonName="Agregar Movimiento"
             movimiento={movimiento}
-            handleMovimiento={handleMovimiento}
-            handleAgregarMovimiento={handleAgregarMovimiento}
             handleCancelar={handleCancelar}
-            handleCalculoFinal={CalculoFinal}
+            editar = {editar}
+            setEditar = {setEditar}
+            final = {final}
+            setMovimiento = {setMovimiento}
+            setMovimientos={setMovimientos}
+            movimientos={movimientos}
           />
         </Col>
         <Col lg="7">
@@ -94,16 +80,17 @@ function App() {
             movimientos={movimientos}
             setMovimientos={setMovimientos}
             movimiento={movimiento}
-            handleMovimiento={handleMovimiento}
-            handleAgregarMovimiento={handleAgregarMovimiento}
             handleCancelar={handleCancelar}
-            handleCalculoFinal={CalculoFinal}
-            formatNumber={formatNumber}
+            handleCalculoFinal = {CalculoFinal}
+            formatNumber = {formatNumber}
+            setEditar = {setEditar}
+            editar = {editar}
+            final = {final}
+            setMovimiento = {setMovimiento}
           />
         </Col>
       </Row>
-      <ModalMessage show={show} handleClose={handleClose} title={message.title} body={message.body} />
-    </div>
+        </div>
   );
 }
 

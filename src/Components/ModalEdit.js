@@ -4,7 +4,7 @@ import { Modal } from 'react-bootstrap';
 
 import RegistroEditar from './RegistroEditar';
 
-const ModalEdit = ({ show, handleClose, movimiento, handleMovimiento, handleAgregarMovimiento }) => {
+const ModalEdit = ({ show, handleClose, movimiento, editar, setMovimiento, setMovimientos, movimientos, setEditar}) => {
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Body>
@@ -12,9 +12,12 @@ const ModalEdit = ({ show, handleClose, movimiento, handleMovimiento, handleAgre
                     title="Editar Movimiento"
                     buttonName= "Guardar Cambios"
                     movimiento={movimiento}
-                    handleMovimiento={handleMovimiento}
-                    handleAgregarMovimiento={handleAgregarMovimiento}
                     handleCancelar={handleClose}
+                    editar={editar}
+                    setMovimiento = {setMovimiento}
+                    setMovimientos = {setMovimientos}
+                    movimientos={movimientos}
+                    setEditar = {setEditar}
                 />
             </Modal.Body>
         </Modal>
