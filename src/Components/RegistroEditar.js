@@ -11,6 +11,7 @@ const RegistroEditar = ({ title, movimiento, handleMovimiento, handleAgregarMovi
 
   const [validated, setValidated] = useState(false);
   const [invalid, setInvalid] = useState(false);
+  
 
   const validarFormulario = () =>{
    if(tipo_movimiento.length == 0){

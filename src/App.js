@@ -68,11 +68,11 @@ function App() {
 
   useEffect(() => {
    if(editar){
-      setMovimiento(editar.id);
+      setMovimiento(editar);
    }else{
      setMovimiento("");
    }
-  }, [setMovimiento, editar])
+  }, [setMovimiento, editar]);
   
 
   const formatNumber = function(number){
@@ -118,6 +118,7 @@ function App() {
             handleCalculoFinal = {handleCalculoFinal}
             formatNumber = {formatNumber}
             setEditar = {setEditar}
+            editar = {editar}
           />
         </Col>
       </Row>

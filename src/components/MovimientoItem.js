@@ -8,7 +8,7 @@ import { Badge } from 'react-bootstrap';
 import ModalEdit from './ModalEdit';
 
 
-const MovimientoItem = ({ handleDelete, movimiento, handleMovimiento, handleAgregarMovimiento, formatNumber, setEditar }) => {
+const MovimientoItem = ({ handleDelete, movimiento, handleMovimiento, handleAgregarMovimiento, formatNumber, setEditar, editar }) => {
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -30,7 +30,7 @@ const MovimientoItem = ({ handleDelete, movimiento, handleMovimiento, handleAgre
             <ModalEdit
                 show={show}
                 handleClose={handleClose}
-                movimiento={movimiento}
+                movimiento={editar}
                 handleMovimiento={handleMovimiento}
                 handleAgregarMovimiento={handleAgregarMovimiento}
             />
