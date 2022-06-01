@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
 
@@ -20,6 +20,7 @@ function App() {
   const [final, setFinal] = useState(0);
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState({ title: "", body: "" });
+  const [editar, setEditar] = useState(null);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -44,15 +45,35 @@ function App() {
 
   const handleCancelar = () => setMovimiento(initialState);
 
+  const handleEditar = (id, tipo_movimiento, nombre, cantidad) =>{
+    const nuevoMovimiento = movimientos.map((movimiento) => movimiento.id === id ? {id, tipo_movimiento, nombre, cantidad} : movimiento);
+    setMovimientos(nuevoMovimiento);
+    setEditar(null);
+  };
+
   const handleAgregarMovimiento = () => {
-    if (movimiento.tipo_movimiento === "Gasto" && final <= 0) {
-      setMessage({ title: "ERROR", body: "No cuenta con saldo suficiente para realizar este movimiento" })
-      handleShow();
-    } else {
-      setMovimientos([...movimientos, { ...movimiento, id: uuidv4() }]);
-      handleCalculoFinal();
+
+    if(editar){
+      handleEditar(movimiento.id, movimiento.tipo_movimiento, movimiento.nombre, movimiento.cantidad);
+    }else{
+      if (movimiento.tipo_movimiento === "Gasto" && final <= 0) {
+        setMessage({ title: "ERROR", body: "No cuenta con saldo suficiente para realizar este movimiento" })
+        handleShow();
+      } else {
+        setMovimientos([...movimientos, { ...movimiento, id: uuidv4() }]);
+        handleCalculoFinal();
+      }
     }
   };
+
+  useEffect(() => {
+   if(editar){
+      setMovimiento(editar.id);
+   }else{
+     setMovimiento("");
+   }
+  }, [setMovimiento, editar])
+  
 
   const formatNumber = function(number){
     return new Intl.NumberFormat('ES-CO', {style: 'currency',currency: 'COP', minimumFractionDigits: 2}).format(number);
@@ -96,6 +117,7 @@ function App() {
             handleCancelar={handleCancelar}
             handleCalculoFinal = {handleCalculoFinal}
             formatNumber = {formatNumber}
+            setEditar = {setEditar}
           />
         </Col>
       </Row>

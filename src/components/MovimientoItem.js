@@ -8,12 +8,15 @@ import { Badge } from 'react-bootstrap';
 import ModalEdit from './ModalEdit';
 
 
-const MovimientoItem = ({ handleDelete, movimiento, handleMovimiento, handleAgregarMovimiento, formatNumber }) => {
+const MovimientoItem = ({ handleDelete, movimiento, handleMovimiento, handleAgregarMovimiento, formatNumber, setEditar }) => {
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-
+    const handleShow = () => {
+                                setShow(true);
+                                setEditar(movimiento)
+                            };
+    
     return (
         <Row>
             <Col lg="2">
