@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 
 
@@ -12,6 +12,7 @@ import Header from "./components/Header";
 
 function App() {
   const initialState = { tipo_movimiento: "", nombre: "", cantidad: "" };
+  
 
   const [movimiento, setMovimiento] = useState(initialState);
   const [movimientos, setMovimientos] = useState([]);
@@ -22,18 +23,30 @@ function App() {
  
   const [editar, setEditar] = useState(null);
 
-  const CalculoFinal = () => {
-    console.log(movimiento);
-    let IngresosTotal = movimientos.filter((movimiento) => movimiento.tipo_movimiento === "Ingreso")
-      .reduce((IngresoTotalAc, mov) => IngresoTotalAc += parseInt(mov.cantidad), 0);
+  const CalculoFinal = (tipo_movimiento, cantidad) => {
+    let IngresosTotal = 0;
+    let GastosTotal = 0;
+    let totalFinal = 0;
 
-    let GastosTotal = movimientos.filter((movimiento) => movimiento.tipo_movimiento === "Gasto")
-      .reduce((GastoTotalAc, mov) => GastoTotalAc += parseInt(mov.cantidad), 0);
-
-    let totalFinal = (parseInt(inicial) + (parseInt(IngresosTotal) - parseInt(GastosTotal)));
-
-    totalFinal = (parseInt(inicial) + (parseInt(IngresosTotal) - parseInt(GastosTotal)));
-
+    if(editar){
+      if (tipo_movimiento === "Ingreso"){
+        IngresosTotal += parseFloat(cantidad);
+      }else{
+        if(tipo_movimiento === "Gasto"){
+          GastosTotal += parseFloat(cantidad);
+        }
+      }
+    }else{
+      if (tipo_movimiento === "Ingreso"){
+        IngresosTotal += parseFloat(cantidad);
+      }else{
+        if(tipo_movimiento === "Gasto"){
+          GastosTotal += parseFloat(cantidad);
+        }
+      }
+      totalFinal = parseFloat(final.replace("$", "").replace(".", "")) + parseFloat(IngresosTotal) - parseFloat(GastosTotal);
+    }
+    
     setFinal(formatNumber(totalFinal));
 
   };
@@ -41,10 +54,14 @@ function App() {
   const handleCancelar = () => setMovimiento(initialState);
 
   const formatNumber = function(number){
-    return new Intl.NumberFormat('ES-CO', {style: 'currency',currency: 'COP', minimumFractionDigits: 2}).format(number);
-};
+    return new Intl.NumberFormat('ES-CO', {style: 'currency',currency: 'COP', minimumFractionDigits: 0}).format(number);
+  };
 
-  const handleSaldoIncial = ({ target: { value } }) => setInicial(value);
+  const handleSaldoIncial = ({ target: { value } }) =>{ 
+                                                        setInicial(value) 
+                                                        setFinal(formatNumber(value))
+                                                      };
+
 
   return (
     <div className="m-5">
@@ -73,6 +90,7 @@ function App() {
             setMovimiento = {setMovimiento}
             setMovimientos={setMovimientos}
             movimientos={movimientos}
+            handleCalculoFinal = {CalculoFinal}
           />
         </Col>
         <Col lg="7">

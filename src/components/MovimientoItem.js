@@ -21,12 +21,13 @@ const MovimientoItem = ({ handleDelete, movimiento, formatNumber, setEditar, edi
         <Row>
             <Col lg="2">
                 <BsXLg className='MovimientoItem-icon' onClick={() => handleDelete(movimiento.id)} />
-                <BsPencil className='MovimientoItem-icon' onClick={handleShow} />
+                <BsPencil className='MovimientoItem-icon' onClick={() => setEditar(movimiento)} />
             </Col>
             <Col lg="5">{movimiento.nombre}</Col>
             <Col lg="5">
                 <Badge bg={`${movimiento.tipo_movimiento === "Gasto" ? "danger" : "success"}`}>{formatNumber(movimiento.cantidad)}</Badge>
             </Col>
+            {/*
             <ModalEdit
                 show={show}
                 handleClose={handleClose}
@@ -38,6 +39,7 @@ const MovimientoItem = ({ handleDelete, movimiento, formatNumber, setEditar, edi
                 editar={editar}
                 setEditar = {setEditar}
             />
+           */}
         </Row>
     )
 }

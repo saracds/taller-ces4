@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { v4 as uuidv4 } from "uuid";
 
-const RegistroEditar = ({ title, movimiento, handleCancelar, buttonName, editar,setMovimiento, setMovimientos,movimientos, setEditar, final }) => {
+const RegistroEditar = ({ title, movimiento, handleCancelar, buttonName, editar,setMovimiento, setMovimientos,movimientos, setEditar, final, handleCalculoFinal }) => {
 
   const { tipo_movimiento, nombre, cantidad } = movimiento;
 
@@ -57,14 +57,16 @@ const RegistroEditar = ({ title, movimiento, handleCancelar, buttonName, editar,
   const handleAgregarMovimiento = () => {
 
     if(editar){
-      Editar(movimiento.id, movimiento.tipo_movimiento, movimiento.nombre, movimiento.cantidad);
+      Editar(editar.id, editar.tipo_movimiento, editar.nombre, editar.cantidad);
+      
+      //handleCalculoFinal(editar.tipo_movimiento, editar.cantidad)
     }else{
-      if (movimiento.tipo_movimiento === "Gasto" && final <= 0) {
+      if (movimiento.tipo_movimiento === "Gasto" && (parseFloat(final.replace("$", "").replace(".", "")) - parseFloat(movimiento.cantidad)) < 0) {
         setMessage({ title: "ERROR", body: "No cuenta con saldo suficiente para realizar este movimiento" })
         handleShow();
       } else {
         setMovimientos([...movimientos, { ...movimiento, id: uuidv4() }]);
-        console.log(movimientos.length)
+        handleCalculoFinal(movimiento.tipo_movimiento, movimiento.cantidad)
       }
     }
   };
@@ -77,7 +79,6 @@ const RegistroEditar = ({ title, movimiento, handleCancelar, buttonName, editar,
 
   useEffect(() => {
     if(editar){
-      console.log("entro")
        setMovimiento(editar);
     }else{
       setMovimiento({ tipo_movimiento: "", nombre: "", cantidad: "" });
@@ -169,7 +170,7 @@ const RegistroEditar = ({ title, movimiento, handleCancelar, buttonName, editar,
                   <Button variant="primary" type="button" onClick={handleCancelar}>Cancelar</Button>
                 </Col>
                 <Col md="6">
-                  <Button variant="primary" type="submit">{buttonName}</Button>
+                  <Button variant="primary" type="submit">{editar ? "Editar Movimiento" : "Agregar Movimiento"}</Button>
                 </Col>
               </Row>
             </div>
