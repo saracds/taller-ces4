@@ -32,8 +32,6 @@ function App() {
 
     let totalFinal = (parseInt(inicial) + (parseInt(IngresosTotal) - parseInt(GastosTotal)));
 
-    totalFinal = (parseInt(inicial) + (parseInt(IngresosTotal) - parseInt(GastosTotal)));
-
     setFinal(formatNumber(totalFinal));
 
   };
@@ -73,6 +71,7 @@ function App() {
             setMovimiento = {setMovimiento}
             setMovimientos={setMovimientos}
             movimientos={movimientos}
+            CalculoFinal = {CalculoFinal}
           />
         </Col>
         <Col lg="7">
@@ -81,7 +80,7 @@ function App() {
             setMovimientos={setMovimientos}
             movimiento={movimiento}
             handleCancelar={handleCancelar}
-            handleCalculoFinal = {CalculoFinal}
+            CalculoFinal = {CalculoFinal}
             formatNumber = {formatNumber}
             setEditar = {setEditar}
             editar = {editar}
