@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Form, Button, Row, Col, Card, InputGroup, FormControl } from 'react-bootstrap';
 import ModalMessage from "../components/ModalMessage";
@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { v4 as uuidv4 } from "uuid";
 
-const RegistroEditar = ({ title, movimiento, handleCancelar, buttonName, editar,setMovimiento, setMovimientos,movimientos, setEditar, final, handleCalculoFinal }) => {
+const RegistroEditar = ({ title, movimiento, handleCancelar, buttonName, editar, setMovimiento, setMovimientos, movimientos, setEditar, final, CalculoFinal }) => {
 
   const { tipo_movimiento, nombre, cantidad } = movimiento;
 
@@ -14,37 +14,37 @@ const RegistroEditar = ({ title, movimiento, handleCancelar, buttonName, editar,
   const [invalid, setInvalid] = useState(false);
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState({ title: "", body: "" });
-  
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
 
-  const validarFormulario = () =>{
-   if(tipo_movimiento.length == 0){
-     return false;
-   }
-   if(nombre.length == 0){
-     return false;
-   }
-   if(cantidad <= 0){
-     setInvalid(true);
-     return false;
-   }else{
-    setInvalid(false);
-   }
- 
-   return true;
+  const validarFormulario = () => {
+    if (tipo_movimiento.length == 0) {
+      return false;
+    }
+    if (nombre.length == 0) {
+      return false;
+    }
+    if (cantidad <= 0) {
+      setInvalid(true);
+      return false;
+    } else {
+      setInvalid(false);
+    }
+
+    return true;
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("validacion",validarFormulario());
+    console.log("validacion", validarFormulario());
     const form = event.currentTarget;
     console.log(form);
 
-    if (form.checkValidity() === false) {
+    if (form.checkValidity() == false) {
       event.stopPropagation();
-    }else{
+    } else {
       handleAgregarMovimiento();
     }
     setValidated(true)
@@ -66,13 +66,15 @@ const RegistroEditar = ({ title, movimiento, handleCancelar, buttonName, editar,
         handleShow();
       } else {
         setMovimientos([...movimientos, { ...movimiento, id: uuidv4() }]);
-        handleCalculoFinal(movimiento.tipo_movimiento, movimiento.cantidad)
+        CalculoFinal(movimiento.tipo_movimiento, movimiento.cantidad);
+        setMessage({ title: "Registro Exitoso", body:`El ${movimiento.tipo_movimiento} fue agregado con éxito` })
+        handleShow();
       }
     }
   };
-  
-  const Editar = (id, tipo_movimiento, nombre, cantidad) =>{
-    const nuevoMovimiento = movimientos.map((movimiento) => movimiento.id === id ? {id, tipo_movimiento, nombre, cantidad} : movimiento);
+
+  const Editar = (id, tipo_movimiento, nombre, cantidad) => {
+    const nuevoMovimiento = movimientos.map((movimiento) => movimiento.id === id ? { id, tipo_movimiento, nombre, cantidad } : movimiento);
     setMovimientos(nuevoMovimiento);
     setEditar(null);
   };
@@ -83,9 +85,9 @@ const RegistroEditar = ({ title, movimiento, handleCancelar, buttonName, editar,
     }else{
       setMovimiento({ tipo_movimiento: "", nombre: "", cantidad: "" });
     }
-   }, [setMovimiento, editar]);
-  
-   
+  }, [setMovimiento, editar]);
+
+
   return (
     <Card className='text-center'>
       <Card.Body>
@@ -154,7 +156,7 @@ const RegistroEditar = ({ title, movimiento, handleCancelar, buttonName, editar,
 
                   />
                   <Form.Control.Feedback type="invalid">
-                   La cantidad debe ser mayor a cero
+                    La cantidad debe ser mayor a cero
                   </Form.Control.Feedback>
                 </Col>
               </Row>

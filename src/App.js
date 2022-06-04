@@ -27,7 +27,7 @@ function App() {
     let IngresosTotal = 0;
     let GastosTotal = 0;
     let totalFinal = 0;
-
+/*
     if(editar){
       if (tipo_movimiento === "Ingreso"){
         IngresosTotal += parseFloat(cantidad);
@@ -46,7 +46,17 @@ function App() {
       }
       totalFinal = parseFloat(final.replace("$", "").replace(".", "")) + parseFloat(IngresosTotal) - parseFloat(GastosTotal);
     }
-    
+    */
+
+    if (tipo_movimiento === "Ingreso"){
+      IngresosTotal += parseFloat(cantidad);
+    }else{
+      if(tipo_movimiento === "Gasto"){
+        GastosTotal += parseFloat(cantidad);
+      }
+    }
+    totalFinal = parseFloat(final.replace("$", "").replace(".", "")) + parseFloat(IngresosTotal) - parseFloat(GastosTotal);
+  
     setFinal(formatNumber(totalFinal));
 
   };
@@ -90,7 +100,7 @@ function App() {
             setMovimiento = {setMovimiento}
             setMovimientos={setMovimientos}
             movimientos={movimientos}
-            handleCalculoFinal = {CalculoFinal}
+            CalculoFinal = {CalculoFinal}
           />
         </Col>
         <Col lg="7">
@@ -99,7 +109,7 @@ function App() {
             setMovimientos={setMovimientos}
             movimiento={movimiento}
             handleCancelar={handleCancelar}
-            handleCalculoFinal = {CalculoFinal}
+            CalculoFinal = {CalculoFinal}
             formatNumber = {formatNumber}
             setEditar = {setEditar}
             editar = {editar}

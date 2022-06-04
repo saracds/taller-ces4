@@ -1,17 +1,21 @@
-import React from "react";
+import React,{useState} from "react";
 
 import { Badge, Card, ListGroup, Row, Col } from "react-bootstrap";
 
 import Busqueda from "./Busqueda";
 import MovimientoItem from "./MovimientoItem";
 
-const MovimientosList = ({ movimientos, setMovimientos, handleCalculoFinal, formatNumber, setEditar, editar, setMovimiento, final}) => {
+const MovimientosList = ({ movimientos, setMovimientos, CalculoFinal, formatNumber, setEditar, editar, setMovimiento, final}) => {
 
+  const [buscar, setBuscar] = useState("")
+  const [coincidencias, setCoincidencias] = useState([]);
 
   const handleDelete = (id) => {
     setMovimientos(movimientos.filter((movimiento) => movimiento.id !== id));
-    handleCalculoFinal();
+    CalculoFinal();
   };
+
+  const data = (!buscar) ? movimientos : coincidencias;
 
   return (
     <Card className="text-center">
@@ -26,9 +30,15 @@ const MovimientosList = ({ movimientos, setMovimientos, handleCalculoFinal, form
         </Card.Title>
         <hr />
         <Card.Text>
-          <Busqueda />
+          <Busqueda 
+            movimientos={movimientos} 
+            buscar={buscar}
+            setBuscar={setBuscar}
+            coincidencias={coincidencias}
+            setCoincidencias={setCoincidencias}
+            />
           <ListGroup as="ul">
-            {movimientos.map((movimiento) => (
+            {data.map((movimiento) => (
               <ListGroup.Item key={movimiento.id}>
                 <MovimientoItem
                   movimiento={movimiento}
