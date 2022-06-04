@@ -5,7 +5,7 @@ import { Badge, Card, ListGroup, Row, Col } from "react-bootstrap";
 import Busqueda from "./Busqueda";
 import MovimientoItem from "./MovimientoItem";
 
-const MovimientosList = ({ movimientos, setMovimientos, CalculoFinal, formatNumber, setEditar, editar, setMovimiento, final}) => {
+const MovimientosList = ({ movimientos, setMovimientos, CalculoFinal, formatNumber, setEditar, setMovimiento, final}) => {
 
   const [buscar, setBuscar] = useState("")
   const [coincidencias, setCoincidencias] = useState([]);
@@ -45,11 +45,7 @@ const MovimientosList = ({ movimientos, setMovimientos, CalculoFinal, formatNumb
                   handleDelete={handleDelete}
                   formatNumber = {formatNumber}
                   setEditar = {setEditar}
-                  editar = {editar}
                   setMovimiento = {setMovimiento}
-                  setMovimientos = {setMovimientos}
-                  movimientos={movimientos}
-                  final = {final}
                 />
               </ListGroup.Item>
             ))}

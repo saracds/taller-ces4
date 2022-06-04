@@ -5,14 +5,7 @@ import { Row, Col } from 'react-bootstrap';
 
 import { Badge } from 'react-bootstrap';
 
-const MovimientoItem = ({ handleDelete, movimiento, formatNumber, setEditar, editar, setMovimiento, setMovimientos, movimientos, final }) => {
-
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => {
-        setShow(true);
-        setEditar(movimiento)
-    };
+const MovimientoItem = ({ handleDelete, movimiento, formatNumber, setEditar }) => {
 
     return (
         <Row>
@@ -24,19 +17,6 @@ const MovimientoItem = ({ handleDelete, movimiento, formatNumber, setEditar, edi
             <Col lg="5">
                 <Badge bg={`${movimiento.tipo_movimiento === "Gasto" ? "danger" : "success"}`}>{formatNumber(movimiento.cantidad)}</Badge>
             </Col>
-            {/*
-            <ModalEdit
-                show={show}
-                handleClose={handleClose}
-                movimiento={{ tipo_movimiento: "", nombre: "", cantidad: "" }}
-                setMovimiento={setMovimiento}
-                setMovimientos={setMovimientos}
-                movimientos={movimientos}
-                final={final}
-                editar={editar}
-                setEditar={setEditar}
-            />
-           */}
         </Row>
     )
 }
