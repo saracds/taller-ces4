@@ -47,7 +47,6 @@ function App() {
       totalFinal = parseFloat(final.replace("$", "").replace(".", "")) + parseFloat(IngresosTotal) - parseFloat(GastosTotal);
     }
     */
-
     if (tipo_movimiento === "Ingreso"){
       IngresosTotal += parseFloat(cantidad);
     }else{
@@ -101,6 +100,7 @@ function App() {
             setMovimientos={setMovimientos}
             movimientos={movimientos}
             CalculoFinal = {CalculoFinal}
+            inicial = {inicial}
           />
         </Col>
         <Col lg="7">

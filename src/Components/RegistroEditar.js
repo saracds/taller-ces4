@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { v4 as uuidv4 } from "uuid";
 
-const RegistroEditar = ({ title, movimiento, handleCancelar, buttonName, editar, setMovimiento, setMovimientos, movimientos, setEditar, final, CalculoFinal }) => {
+const RegistroEditar = ({ title, movimiento, handleCancelar, buttonName, editar, setMovimiento, setMovimientos, movimientos, setEditar, final, CalculoFinal, inicial }) => {
 
   const { tipo_movimiento, nombre, cantidad } = movimiento;
 
@@ -61,13 +61,18 @@ const RegistroEditar = ({ title, movimiento, handleCancelar, buttonName, editar,
       
       //handleCalculoFinal(editar.tipo_movimiento, editar.cantidad)
     }else{
-      if (movimiento.tipo_movimiento === "Gasto" && (parseFloat(final.replace("$", "").replace(".", "")) - parseFloat(movimiento.cantidad)) < 0) {
-        setMessage({ title: "ERROR", body: "No cuenta con saldo suficiente para realizar este movimiento" })
-        handleShow();
-      } else {
-        setMovimientos([...movimientos, { ...movimiento, id: uuidv4() }]);
-        CalculoFinal(movimiento.tipo_movimiento, movimiento.cantidad);
-        setMessage({ title: "Registro Exitoso", body:`El ${movimiento.tipo_movimiento} fue agregado con éxito` })
+      if(inicial !== 0){
+        if (movimiento.tipo_movimiento === "Gasto" && (parseFloat(final.replace("$", "").replace(".", "")) - parseFloat(movimiento.cantidad)) < 0) {
+          setMessage({ title: "ERROR", body: "No cuenta con saldo suficiente para realizar este movimiento" })
+          handleShow();
+        } else {
+          setMovimientos([...movimientos, { ...movimiento, id: uuidv4() }]);
+          CalculoFinal(movimiento.tipo_movimiento, movimiento.cantidad);
+          setMessage({ title: "Registro Exitoso", body:`El ${movimiento.tipo_movimiento} fue agregado con éxito` })
+          handleShow();
+        }
+      }else{
+        setMessage({ title: "ERROR", body: 'El saldo incial no puede ser 0' });
         handleShow();
       }
     }
@@ -153,7 +158,7 @@ const RegistroEditar = ({ title, movimiento, handleCancelar, buttonName, editar,
                     value={cantidad}
                     onChange={e => handleMovimiento("cantidad", e.target.value)}
                     required
-
+                    min = "1"
                   />
                   <Form.Control.Feedback type="invalid">
                     La cantidad debe ser mayor a cero
