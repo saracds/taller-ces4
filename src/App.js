@@ -68,9 +68,9 @@ function App() {
   };
 
   const handleSaldoIncial = ({ target: { value } }) =>{ 
-                                                        setInicial(value) 
-                                                        setFinal(formatNumber(value))
-                                                      };
+    setInicial(value) ;
+    setFinal(formatNumber(value));
+  };
 
 
   return (
@@ -90,8 +90,6 @@ function App() {
       <Row>
         <Col lg="5">
           <RegistroEditar
-            title="Registro"
-            buttonName="Agregar Movimiento"
             movimiento={movimiento}
             handleCancelar={handleCancelar}
             editar = {editar}
@@ -101,6 +99,7 @@ function App() {
             setMovimientos={setMovimientos}
             movimientos={movimientos}
             CalculoFinal = {CalculoFinal}
+            initialState = {initialState}
           />
         </Col>
         <Col lg="7">
@@ -112,7 +111,6 @@ function App() {
             CalculoFinal = {CalculoFinal}
             formatNumber = {formatNumber}
             setEditar = {setEditar}
-            editar = {editar}
             final = {final}
             setMovimiento = {setMovimiento}
           />

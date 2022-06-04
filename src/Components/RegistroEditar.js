@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { v4 as uuidv4 } from "uuid";
 
-const RegistroEditar = ({ title, movimiento, handleCancelar, buttonName, editar, setMovimiento, setMovimientos, movimientos, setEditar, final, CalculoFinal }) => {
+const RegistroEditar = ({ movimiento, handleCancelar, editar, setMovimiento, setMovimientos, movimientos, setEditar, final, CalculoFinal, initialState }) => {
 
   const { tipo_movimiento, nombre, cantidad } = movimiento;
 
@@ -18,6 +18,14 @@ const RegistroEditar = ({ title, movimiento, handleCancelar, buttonName, editar,
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  useEffect(() => {
+
+    if (editar) {
+      setMovimiento(editar);
+    } else {
+      setMovimiento(initialState);
+    }
+  }, [editar, setMovimiento]);
 
   const validarFormulario = () => {
     if (tipo_movimiento.length == 0) {
@@ -38,9 +46,8 @@ const RegistroEditar = ({ title, movimiento, handleCancelar, buttonName, editar,
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("validacion", validarFormulario());
+
     const form = event.currentTarget;
-    console.log(form);
 
     if (form.checkValidity() == false) {
       event.stopPropagation();
@@ -56,18 +63,17 @@ const RegistroEditar = ({ title, movimiento, handleCancelar, buttonName, editar,
 
   const handleAgregarMovimiento = () => {
 
-    if(editar){
-      Editar(editar.id, editar.tipo_movimiento, editar.nombre, editar.cantidad);
-      
+    if (editar) {
+      Editar(editar.id, movimiento.tipo_movimiento, movimiento.nombre, movimiento.cantidad);
       //handleCalculoFinal(editar.tipo_movimiento, editar.cantidad)
-    }else{
+    } else {
       if (movimiento.tipo_movimiento === "Gasto" && (parseFloat(final.replace("$", "").replace(".", "")) - parseFloat(movimiento.cantidad)) < 0) {
         setMessage({ title: "ERROR", body: "No cuenta con saldo suficiente para realizar este movimiento" })
         handleShow();
       } else {
         setMovimientos([...movimientos, { ...movimiento, id: uuidv4() }]);
         CalculoFinal(movimiento.tipo_movimiento, movimiento.cantidad);
-        setMessage({ title: "Registro Exitoso", body:`El ${movimiento.tipo_movimiento} fue agregado con éxito` })
+        setMessage({ title: "Registro Exitoso", body: `El ${movimiento.tipo_movimiento} fue agregado con éxito` })
         handleShow();
       }
     }
@@ -79,19 +85,11 @@ const RegistroEditar = ({ title, movimiento, handleCancelar, buttonName, editar,
     setEditar(null);
   };
 
-  useEffect(() => {
-    if(editar){
-       setMovimiento(editar);
-    }else{
-      setMovimiento({ tipo_movimiento: "", nombre: "", cantidad: "" });
-    }
-  }, [setMovimiento, editar]);
-
 
   return (
     <Card className='text-center'>
       <Card.Body>
-        <Card.Title>{title}</Card.Title>
+        <Card.Title>{editar ? "Editar Registro" : "Registro"}</Card.Title>
         <hr />
         <Card.Text>
           <Form className='text-center' noValidate validated={validated} onSubmit={handleSubmit}>
@@ -107,8 +105,12 @@ const RegistroEditar = ({ title, movimiento, handleCancelar, buttonName, editar,
                     required
                   >
                     <option></option>
-                    <option value="Ingreso">Ingreso</option>
-                    <option value="Gasto">Gasto</option>
+                    {editar?.tipo_movimiento == "Ingreso"
+                      && <option value="Ingreso" selected>Ingreso</option>
+                      || <option value="Ingreso">Ingreso</option>}
+                    {editar?.tipo_movimiento == "Gasto"
+                      && <option value="Gasto" selected>Gasto</option>
+                      || <option value="Gasto">Gasto</option>}
                   </Form.Select>
                   <Form.Control.Feedback type="invalid">
                     Seleccione el tipo
