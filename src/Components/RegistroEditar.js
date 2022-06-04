@@ -11,7 +11,7 @@ const RegistroEditar = ({ movimiento, handleCancelar, editar, setMovimiento, set
   const { tipo_movimiento, nombre, cantidad } = movimiento;
 
   const [validated, setValidated] = useState(false);
-  const [invalid, setInvalid] = useState(false);
+  const [invalido, setInvalido] = useState(false);
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState({ title: "", body: "" });
 
@@ -27,20 +27,13 @@ const RegistroEditar = ({ movimiento, handleCancelar, editar, setMovimiento, set
     }
   }, [editar, setMovimiento]);
 
-  const validarFormulario = () => {
-    if (tipo_movimiento.length == 0) {
-      return false;
-    }
-    if (nombre.length == 0) {
-      return false;
-    }
+  const validarCantidad = () => {
     if (cantidad <= 0) {
-      setInvalid(true);
+      setInvalido(true);
       return false;
     } else {
-      setInvalid(false);
+      setInvalido(false);
     }
-
     return true;
   };
 
@@ -49,7 +42,7 @@ const RegistroEditar = ({ movimiento, handleCancelar, editar, setMovimiento, set
 
     const form = event.currentTarget;
 
-    if (form.checkValidity() == false) {
+    if (form.checkValidity() == false || validarCantidad() == false) {
       event.stopPropagation();
     } else {
       handleAgregarMovimiento();
@@ -155,7 +148,7 @@ const RegistroEditar = ({ movimiento, handleCancelar, editar, setMovimiento, set
                     value={cantidad}
                     onChange={e => handleMovimiento("cantidad", e.target.value)}
                     required
-
+                    isInvalid = {false}
                   />
                   <Form.Control.Feedback type="invalid">
                     La cantidad debe ser mayor a cero
