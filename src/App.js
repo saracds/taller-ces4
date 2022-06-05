@@ -23,30 +23,11 @@ function App() {
  
   const [editar, setEditar] = useState(null);
 
-  const CalculoFinal = () => {
+  const CalculoFinal = (tipo_movimiento, cantidad) => {
     let IngresosTotal = 0;
     let GastosTotal = 0;
     let totalFinal = 0;
-/*
-    if(editar){
-      if (tipo_movimiento === "Ingreso"){
-        IngresosTotal += parseFloat(cantidad);
-      }else{
-        if(tipo_movimiento === "Gasto"){
-          GastosTotal += parseFloat(cantidad);
-        }
-      }
-    }else{
-      if (tipo_movimiento === "Ingreso"){
-        IngresosTotal += parseFloat(cantidad);
-      }else{
-        if(tipo_movimiento === "Gasto"){
-          GastosTotal += parseFloat(cantidad);
-        }
-      }
-      totalFinal = parseFloat(final.replace("$", "").replace(".", "")) + parseFloat(IngresosTotal) - parseFloat(GastosTotal);
-    }
-    */
+
    if(editar){
      if(movimiento.tipo_movimiento === "Ingreso"){
       if(movimiento.cantidad > editar.cantidad){
@@ -73,6 +54,10 @@ function App() {
     }else{
       if(movimiento.tipo_movimiento === "Gasto"){
         GastosTotal += parseFloat(movimiento.cantidad);
+      }else {
+        if(tipo_movimiento === "Eliminar") {
+          GastosTotal += parseInt(cantidad);
+        } 
       }
     }
 

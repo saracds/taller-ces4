@@ -6,17 +6,18 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { v4 as uuidv4 } from "uuid";
 
-const RegistroEditar = ({ initialState,  movimiento, handleCancelar, editar, setMovimiento, setMovimientos, movimientos, setEditar, final, CalculoFinal, inicial }) => {
+const RegistroEditar = ({ initialState,  movimiento,  editar, setMovimiento, setMovimientos, movimientos, setEditar, final, CalculoFinal, inicial }) => {
 
   const { tipo_movimiento, nombre, cantidad } = movimiento;
 
   const [validated, setValidated] = useState(false);
-  const [invalid, setInvalid] = useState(false);
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState({ title: "", body: "" });
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const handleCancelar = () => setMovimiento(initialState);
 
   useEffect(() => {
 
@@ -26,23 +27,6 @@ const RegistroEditar = ({ initialState,  movimiento, handleCancelar, editar, set
       setMovimiento(initialState);
     }
   }, [editar, setMovimiento]);
-
-  const validarFormulario = () => {
-    if (tipo_movimiento.length == 0) {
-      return false;
-    }
-    if (nombre.length == 0) {
-      return false;
-    }
-    if (cantidad <= 0) {
-      setInvalid(true);
-      return false;
-    } else {
-      setInvalid(false);
-    }
-
-    return true;
-  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -64,12 +48,10 @@ const RegistroEditar = ({ initialState,  movimiento, handleCancelar, editar, set
   const handleAgregarMovimiento = () => {
 
     if (editar) {
+      console.log(`anterior : ${editar.cantidad} nuevo : ${movimiento.cantidad}`)
+      let diferencia = parseInt(movimiento.cantidad) - parseInt(editar.cantidad);
       Editar(editar.id, movimiento.tipo_movimiento, movimiento.nombre, movimiento.cantidad);
-      console.log("Editar : " + editar.id + " " + editar.cantidad);
-      console.log("Movimiento : " + movimiento.id + " " + movimiento.cantidad);
-      //handleCalculoFinal(editar.tipo_movimiento, editar.cantidad)
-      CalculoFinal();
-      setEditar(null);
+      CalculoFinal(movimiento.tipo_movimiento, diferencia);
     }else{
       if(inicial !== 0){
         if (movimiento.tipo_movimiento === "Gasto" && (parseFloat(final.replace("$", "").replace(".", "")) - parseFloat(movimiento.cantidad)) < 0) {
@@ -86,6 +68,7 @@ const RegistroEditar = ({ initialState,  movimiento, handleCancelar, editar, set
         handleShow();
       }
     }
+    handleCancelar();
   };
 
   const Editar = (id, tipo_movimiento, nombre, cantidad) => {
@@ -109,10 +92,11 @@ const RegistroEditar = ({ initialState,  movimiento, handleCancelar, editar, set
                 <Col md='8'>
                   <Form.Select
                     name="tipo_movimiento"
+                    value={tipo_movimiento}
                     onChange={e => handleMovimiento("tipo_movimiento", e.target.value)}
                     required
                   >
-                    <option></option>
+                    <option value="" selected></option>
                     {editar?.tipo_movimiento == "Ingreso"
                       && <option value="Ingreso" selected>Ingreso</option>
                       || <option value="Ingreso">Ingreso</option>}
