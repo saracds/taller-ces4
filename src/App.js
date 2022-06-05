@@ -23,7 +23,7 @@ function App() {
  
   const [editar, setEditar] = useState(null);
 
-  const CalculoFinal = (tipo_movimiento, cantidad) => {
+  const CalculoFinal = () => {
     let IngresosTotal = 0;
     let GastosTotal = 0;
     let totalFinal = 0;
@@ -47,14 +47,39 @@ function App() {
       totalFinal = parseFloat(final.replace("$", "").replace(".", "")) + parseFloat(IngresosTotal) - parseFloat(GastosTotal);
     }
     */
-    if (tipo_movimiento === "Ingreso"){
-      IngresosTotal += parseFloat(cantidad);
+   if(editar){
+     if(movimiento.tipo_movimiento === "Ingreso"){
+      if(movimiento.cantidad > editar.cantidad){
+        totalFinal = parseFloat(final.replace("$", "").replace(".", "")) + (parseFloat(movimiento.cantidad) - parseFloat(editar.cantidad));
+      }else{
+        totalFinal = parseFloat(final.replace("$", "").replace(".", "")) - (parseFloat(editar.cantidad) - parseFloat(movimiento.cantidad));
+      }
+     }else{
+       if(movimiento.tipo_movimiento === "Gasto"){
+        if(movimiento.cantidad > editar.cantidad){
+          totalFinal = parseFloat(final.replace("$", "").replace(".", "")) - (parseFloat(movimiento.cantidad) - parseFloat(editar.cantidad));
+        }else{
+          if(movimiento.cantidad < editar.cantidad){
+            totalFinal = parseFloat(final.replace("$", "").replace(".", "")) + (parseFloat(editar.cantidad) - parseFloat(movimiento.cantidad));
+          }else{
+            totalFinal = parseFloat(final.replace("$", "").replace(".", "")) - parseFloat(editar.cantidad);
+          }
+        }
+       }
+     }
+   }else{
+    if (movimiento.tipo_movimiento === "Ingreso"){
+      IngresosTotal += parseFloat(movimiento.cantidad);
     }else{
-      if(tipo_movimiento === "Gasto"){
-        GastosTotal += parseFloat(cantidad);
+      if(movimiento.tipo_movimiento === "Gasto"){
+        GastosTotal += parseFloat(movimiento.cantidad);
       }
     }
+
     totalFinal = parseFloat(final.replace("$", "").replace(".", "")) + parseFloat(IngresosTotal) - parseFloat(GastosTotal);
+
+   }
+    
   
     setFinal(formatNumber(totalFinal));
 

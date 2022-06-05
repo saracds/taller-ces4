@@ -65,7 +65,11 @@ const RegistroEditar = ({ initialState,  movimiento, handleCancelar, editar, set
 
     if (editar) {
       Editar(editar.id, movimiento.tipo_movimiento, movimiento.nombre, movimiento.cantidad);
+      console.log("Editar : " + editar.id + " " + editar.cantidad);
+      console.log("Movimiento : " + movimiento.id + " " + movimiento.cantidad);
       //handleCalculoFinal(editar.tipo_movimiento, editar.cantidad)
+      CalculoFinal();
+      setEditar(null);
     }else{
       if(inicial !== 0){
         if (movimiento.tipo_movimiento === "Gasto" && (parseFloat(final.replace("$", "").replace(".", "")) - parseFloat(movimiento.cantidad)) < 0) {
@@ -73,7 +77,7 @@ const RegistroEditar = ({ initialState,  movimiento, handleCancelar, editar, set
           handleShow();
         } else {
           setMovimientos([...movimientos, { ...movimiento, id: uuidv4() }]);
-          CalculoFinal(movimiento.tipo_movimiento, movimiento.cantidad);
+          CalculoFinal();
           setMessage({ title: "Registro Exitoso", body:`El ${movimiento.tipo_movimiento} fue agregado con éxito` })
           handleShow();
         }
@@ -87,7 +91,6 @@ const RegistroEditar = ({ initialState,  movimiento, handleCancelar, editar, set
   const Editar = (id, tipo_movimiento, nombre, cantidad) => {
     const nuevoMovimiento = movimientos.map((movimiento) => movimiento.id === id ? { id, tipo_movimiento, nombre, cantidad } : movimiento);
     setMovimientos(nuevoMovimiento);
-    setEditar(null);
   };
 
 
