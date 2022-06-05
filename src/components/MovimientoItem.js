@@ -10,7 +10,7 @@ const MovimientoItem = ({ handleDelete, movimiento, formatNumber, setEditar }) =
     return (
         <Row>
             <Col lg="2">
-                <BsXLg className='MovimientoItem-icon' onClick={() => handleDelete(movimiento.id)} />
+                <BsXLg className='MovimientoItem-icon' onClick={() => handleDelete(movimiento)} />
                 <BsPencil className='MovimientoItem-icon' onClick={() => setEditar(movimiento)} />
             </Col>
             <Col lg="5">{movimiento.nombre}</Col>

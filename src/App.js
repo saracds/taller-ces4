@@ -12,7 +12,7 @@ import Header from "./components/Header";
 
 function App() {
   const initialState = { tipo_movimiento: "", nombre: "", cantidad: "" };
-  
+
 
   const [movimiento, setMovimiento] = useState(initialState);
   const [movimientos, setMovimientos] = useState([]);
@@ -20,55 +20,38 @@ function App() {
   const [inicial, setInicial] = useState(0);
 
   const [final, setFinal] = useState(0);
- 
+
   const [editar, setEditar] = useState(null);
 
   const CalculoFinal = (tipo_movimiento, cantidad) => {
     let IngresosTotal = 0;
     let GastosTotal = 0;
     let totalFinal = 0;
-/*
-    if(editar){
-      if (tipo_movimiento === "Ingreso"){
-        IngresosTotal += parseFloat(cantidad);
-      }else{
-        if(tipo_movimiento === "Gasto"){
-          GastosTotal += parseFloat(cantidad);
+    console.log(tipo_movimiento, cantidad)
+    if (tipo_movimiento === "Eliminar") {
+      totalFinal = parseInt(final.replace("$", "").replace(".", "")) - parseInt(cantidad);
+    } else {
+      if (tipo_movimiento === "Ingreso") {
+        IngresosTotal += parseInt(cantidad);
+      } else {
+        if (tipo_movimiento === "Gasto") {
+          GastosTotal += parseInt(cantidad);
         }
       }
-    }else{
-      if (tipo_movimiento === "Ingreso"){
-        IngresosTotal += parseFloat(cantidad);
-      }else{
-        if(tipo_movimiento === "Gasto"){
-          GastosTotal += parseFloat(cantidad);
-        }
-      }
-      totalFinal = parseFloat(final.replace("$", "").replace(".", "")) + parseFloat(IngresosTotal) - parseFloat(GastosTotal);
+      totalFinal = parseInt(final.replace("$", "").replace(".", "")) + parseInt(IngresosTotal) - parseInt(GastosTotal);
     }
-    */
 
-    if (tipo_movimiento === "Ingreso"){
-      IngresosTotal += parseFloat(cantidad);
-    }else{
-      if(tipo_movimiento === "Gasto"){
-        GastosTotal += parseFloat(cantidad);
-      }
-    }
-    totalFinal = parseFloat(final.replace("$", "").replace(".", "")) + parseFloat(IngresosTotal) - parseFloat(GastosTotal);
-  
+    console.log(`Total: ${totalFinal} Ingreso: ${IngresosTotal} Gastos: ${GastosTotal}`)
     setFinal(formatNumber(totalFinal));
 
   };
 
-  const handleCancelar = () => setMovimiento(initialState);
-
-  const formatNumber = function(number){
-    return new Intl.NumberFormat('ES-CO', {style: 'currency',currency: 'COP', minimumFractionDigits: 0}).format(number);
+  const formatNumber = function (number) {
+    return new Intl.NumberFormat('ES-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(number);
   };
 
-  const handleSaldoIncial = ({ target: { value } }) =>{ 
-    setInicial(value) ;
+  const handleSaldoIncial = ({ target: { value } }) => {
+    setInicial(value);
     setFinal(formatNumber(value));
   };
 
@@ -91,15 +74,15 @@ function App() {
         <Col lg="5">
           <RegistroEditar
             movimiento={movimiento}
-            handleCancelar={handleCancelar}
-            editar = {editar}
-            setEditar = {setEditar}
-            final = {final}
-            setMovimiento = {setMovimiento}
+            editar={editar}
+            setEditar={setEditar}
+            final={final}
+            setMovimiento={setMovimiento}
             setMovimientos={setMovimientos}
             movimientos={movimientos}
-            CalculoFinal = {CalculoFinal}
-            initialState = {initialState}
+            CalculoFinal={CalculoFinal}
+            initialState={initialState}
+            inicial={inicial}
           />
         </Col>
         <Col lg="7">
@@ -107,16 +90,15 @@ function App() {
             movimientos={movimientos}
             setMovimientos={setMovimientos}
             movimiento={movimiento}
-            handleCancelar={handleCancelar}
-            CalculoFinal = {CalculoFinal}
-            formatNumber = {formatNumber}
-            setEditar = {setEditar}
-            final = {final}
-            setMovimiento = {setMovimiento}
+            CalculoFinal={CalculoFinal}
+            formatNumber={formatNumber}
+            setEditar={setEditar}
+            final={final}
+            setMovimiento={setMovimiento}
           />
         </Col>
       </Row>
-        </div>
+    </div>
   );
 }
 

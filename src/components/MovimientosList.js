@@ -10,9 +10,9 @@ const MovimientosList = ({ movimientos, setMovimientos, CalculoFinal, formatNumb
   const [buscar, setBuscar] = useState("")
   const [coincidencias, setCoincidencias] = useState([]);
 
-  const handleDelete = (id) => {
+  const handleDelete = ({id, cantidad}) => {
+    CalculoFinal("Eliminar", cantidad);
     setMovimientos(movimientos.filter((movimiento) => movimiento.id !== id));
-    CalculoFinal();
   };
 
   const data = (!buscar) ? movimientos : coincidencias;
