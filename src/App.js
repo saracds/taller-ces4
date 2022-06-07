@@ -32,24 +32,21 @@ function App() {
    if(editar){
      if(movimiento.tipo_movimiento === "Ingreso"){
       if(movimiento.cantidad > editar.cantidad){
-        totalFinal = parseFloat(final.replace("$", "").replace(".", "")) + (parseFloat(movimiento.cantidad) - parseFloat(editar.cantidad));
+        totalFinal = parseFloat(final.replace("$", "").replace(".", "").replace(".", "")) + (parseFloat(movimiento.cantidad) - parseFloat(editar.cantidad));
       }else if(movimiento.cantidad < editar.cantidad){
-        totalFinal = parseFloat(final.replace("$", "").replace(".", "")) - (parseFloat(editar.cantidad) - parseFloat(movimiento.cantidad));
+        totalFinal = parseFloat(final.replace("$", "").replace(".", "").replace(".", "")) - (parseFloat(editar.cantidad) - parseFloat(movimiento.cantidad));
       }else{
-        totalFinal = parseFloat(final.replace("$", "").replace(".", "")) + parseFloat(movimiento.cantidad);
+        totalFinal = parseFloat(final.replace("$", "").replace(".", "").replace(".", "")) + parseFloat(movimiento.cantidad);
       }
      }else{
        if(movimiento.tipo_movimiento === "Gasto"){
         if(movimiento.cantidad > editar.cantidad){
-          alert("movimiento.cantidad > editar.cantidad");
-          totalFinal = parseFloat(final.replace("$", "").replace(".", "")) - (parseFloat(movimiento.cantidad) - parseFloat(editar.cantidad));
+          totalFinal = parseFloat(final.replace("$", "").replace(".", "").replace(".", "")) - (parseFloat(movimiento.cantidad) - parseFloat(editar.cantidad));
         }else{
           if(movimiento.cantidad < editar.cantidad){
-            alert("movimiento.cantidad < editar.cantidad")
-            totalFinal = parseFloat(final.replace("$", "").replace(".", "")) -  parseFloat(movimiento.cantidad);
+            totalFinal = parseFloat(final.replace("$", "").replace(".", "").replace(".", "")) -  parseFloat(movimiento.cantidad);
           }else{
-            alert("ultimo")
-            totalFinal = parseFloat(final.replace("$", "").replace(".", "")) - parseFloat(editar.cantidad);
+            totalFinal = parseFloat(final.replace("$", "").replace(".", "").replace(".", "")) - parseFloat(editar.cantidad);
           }
         }
        }
@@ -67,7 +64,7 @@ function App() {
       }
     }
 
-    totalFinal = parseFloat(final.replace("$", "").replace(".", "")) + parseFloat(IngresosTotal) - parseFloat(GastosTotal);
+    totalFinal = parseFloat(final.replace("$", "").replace(".", "").replace(".", "")) + parseFloat(IngresosTotal) - parseFloat(GastosTotal);
 
    }
     
