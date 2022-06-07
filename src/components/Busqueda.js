@@ -3,18 +3,16 @@ import React, { useState } from 'react'
 import { InputGroup, Form, FormControl, Row, Col } from 'react-bootstrap';
 import { BsSearch } from "react-icons/bs";
 
-const Busqueda = ({ movimientos, buscar, setBuscar, coincidencias, setCoincidencias }) => {
-
-    const [filtro, setFiltro] = useState("");
+const Busqueda = ({ movimientos, buscar, setBuscar, setCoincidencias, filtro, setFiltro }) => {
 
     const handleFiltro = (tipo) => setFiltro(tipo);
 
     const BuscarCoincidencia = ({ target: { value } }) => {
         setBuscar(value);
         let movimientosCopy;
-        if (filtro == "Todos" || filtro === "") {
+        if (filtro === "Todos" || filtro === "") {
             movimientosCopy = movimientos.filter((movimiento) => movimiento.nombre.toLowerCase().includes(value.toLowerCase()))
-        } else if (filtro == "Ingreso") {
+        } else if (filtro === "Ingreso") {
             movimientosCopy = movimientos.filter((movimiento) => movimiento.nombre.toLowerCase().includes(value.toLowerCase()) && movimiento.tipo_movimiento == "Ingreso")
         } else {
             movimientosCopy = movimientos.filter((movimiento) => movimiento.nombre.toLowerCase().includes(value.toLowerCase()) && movimiento.tipo_movimiento == "Gasto")

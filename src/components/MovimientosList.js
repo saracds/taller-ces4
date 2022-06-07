@@ -1,16 +1,17 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 
 import { Badge, Card, ListGroup, Row, Col } from "react-bootstrap";
 
 import Busqueda from "./Busqueda";
 import MovimientoItem from "./MovimientoItem";
 
-const MovimientosList = ({ movimientos, setMovimientos, CalculoFinal, formatNumber, setEditar, setMovimiento, final}) => {
+const MovimientosList = ({ movimientos, setMovimientos, CalculoFinal, formatNumber, setEditar, setMovimiento, final }) => {
 
+  const [filtro, setFiltro] = useState("");
   const [buscar, setBuscar] = useState("")
   const [coincidencias, setCoincidencias] = useState([]);
 
-  const handleDelete = ({id, cantidad}) => {
+  const handleDelete = ({ id, cantidad }) => {
     CalculoFinal("Eliminar", cantidad);
     setMovimientos(movimientos.filter((movimiento) => movimiento.id !== id));
   };
@@ -30,25 +31,53 @@ const MovimientosList = ({ movimientos, setMovimientos, CalculoFinal, formatNumb
         </Card.Title>
         <hr />
         <Card.Text>
-          <Busqueda 
-            movimientos={movimientos} 
+          <Busqueda
+            movimientos={movimientos}
             buscar={buscar}
             setBuscar={setBuscar}
-            coincidencias={coincidencias}
             setCoincidencias={setCoincidencias}
-            />
+            filtro={filtro}
+            setFiltro={setFiltro}
+          />
           <ListGroup as="ul">
-            {data.map((movimiento) => (
-              <ListGroup.Item key={movimiento.id}>
-                <MovimientoItem
-                  movimiento={movimiento}
-                  handleDelete={handleDelete}
-                  formatNumber = {formatNumber}
-                  setEditar = {setEditar}
-                  setMovimiento = {setMovimiento}
-                />
-              </ListGroup.Item>
-            ))}
+            {
+              (filtro === "Todos" || filtro === "")
+              && data.map((movimiento) => (
+                <ListGroup.Item key={movimiento.id}>
+                  <MovimientoItem
+                    movimiento={movimiento}
+                    handleDelete={handleDelete}
+                    formatNumber={formatNumber}
+                    setEditar={setEditar}
+                    setMovimiento={setMovimiento}
+                  />
+                </ListGroup.Item>
+              ))
+              || (filtro === "Ingreso")
+              && data.filter((mov) => mov.tipo_movimiento === "Ingreso").map((movimiento) => (
+                <ListGroup.Item key={movimiento.id}>
+                  <MovimientoItem
+                    movimiento={movimiento}
+                    handleDelete={handleDelete}
+                    formatNumber={formatNumber}
+                    setEditar={setEditar}
+                    setMovimiento={setMovimiento}
+                  />
+                </ListGroup.Item>
+              ))
+              ||
+              data.filter((mov) => mov.tipo_movimiento === "Gasto").map((movimiento) => (
+                <ListGroup.Item key={movimiento.id}>
+                  <MovimientoItem
+                    movimiento={movimiento}
+                    handleDelete={handleDelete}
+                    formatNumber={formatNumber}
+                    setEditar={setEditar}
+                    setMovimiento={setMovimiento}
+                  />
+                </ListGroup.Item>
+              ))
+            }
           </ListGroup>
         </Card.Text>
       </Card.Body>
