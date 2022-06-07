@@ -12,7 +12,7 @@ import Header from "./components/Header";
 
 function App() {
   const initialState = { tipo_movimiento: "", nombre: "", cantidad: "" };
-
+  
 
   const [movimiento, setMovimiento] = useState(initialState);
   const [movimientos, setMovimientos] = useState([]);
@@ -20,38 +20,64 @@ function App() {
   const [inicial, setInicial] = useState(0);
 
   const [final, setFinal] = useState(0);
-
+ 
   const [editar, setEditar] = useState(null);
 
   const CalculoFinal = (tipo_movimiento, cantidad) => {
     let IngresosTotal = 0;
     let GastosTotal = 0;
     let totalFinal = 0;
-    console.log(tipo_movimiento, cantidad)
-    if (tipo_movimiento === "Eliminar") {
-      totalFinal = parseInt(final.replace("$", "").replace(".", "")) - parseInt(cantidad);
-    } else {
-      if (tipo_movimiento === "Ingreso") {
-        IngresosTotal += parseInt(cantidad);
-      } else {
-        if (tipo_movimiento === "Gasto") {
-          GastosTotal += parseInt(cantidad);
-        }
+
+   if(editar){
+     if(movimiento.tipo_movimiento === "Ingreso"){
+      if(movimiento.cantidad > editar.cantidad){
+        totalFinal = parseFloat(final.replace("$", "").replace(".", "")) + (parseFloat(movimiento.cantidad) - parseFloat(editar.cantidad));
+      }else{
+        totalFinal = parseFloat(final.replace("$", "").replace(".", "")) - (parseFloat(editar.cantidad) - parseFloat(movimiento.cantidad));
       }
-      totalFinal = parseInt(final.replace("$", "").replace(".", "")) + parseInt(IngresosTotal) - parseInt(GastosTotal);
+     }else{
+       if(movimiento.tipo_movimiento === "Gasto"){
+        if(movimiento.cantidad > editar.cantidad){
+          totalFinal = parseFloat(final.replace("$", "").replace(".", "")) - (parseFloat(movimiento.cantidad) - parseFloat(editar.cantidad));
+        }else{
+          if(movimiento.cantidad < editar.cantidad){
+            totalFinal = parseFloat(final.replace("$", "").replace(".", "")) + (parseFloat(editar.cantidad) - parseFloat(movimiento.cantidad));
+          }else{
+            totalFinal = parseFloat(final.replace("$", "").replace(".", "")) - parseFloat(editar.cantidad);
+          }
+        }
+       }
+     }
+   }else{
+    if (movimiento.tipo_movimiento === "Ingreso"){
+      IngresosTotal += parseFloat(movimiento.cantidad);
+    }else{
+      if(movimiento.tipo_movimiento === "Gasto"){
+        GastosTotal += parseFloat(movimiento.cantidad);
+      }else {
+        if(tipo_movimiento === "Eliminar") {
+          GastosTotal += parseInt(cantidad);
+        } 
+      }
     }
 
-    console.log(`Total: ${totalFinal} Ingreso: ${IngresosTotal} Gastos: ${GastosTotal}`)
+    totalFinal = parseFloat(final.replace("$", "").replace(".", "")) + parseFloat(IngresosTotal) - parseFloat(GastosTotal);
+
+   }
+    
+  
     setFinal(formatNumber(totalFinal));
 
   };
 
-  const formatNumber = function (number) {
-    return new Intl.NumberFormat('ES-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(number);
+  const handleCancelar = () => setMovimiento(initialState);
+
+  const formatNumber = function(number){
+    return new Intl.NumberFormat('ES-CO', {style: 'currency',currency: 'COP', minimumFractionDigits: 0}).format(number);
   };
 
-  const handleSaldoIncial = ({ target: { value } }) => {
-    setInicial(value);
+  const handleSaldoIncial = ({ target: { value } }) =>{ 
+    setInicial(value) ;
     setFinal(formatNumber(value));
   };
 
@@ -74,15 +100,16 @@ function App() {
         <Col lg="5">
           <RegistroEditar
             movimiento={movimiento}
-            editar={editar}
-            setEditar={setEditar}
-            final={final}
-            setMovimiento={setMovimiento}
+            handleCancelar={handleCancelar}
+            editar = {editar}
+            setEditar = {setEditar}
+            final = {final}
+            setMovimiento = {setMovimiento}
             setMovimientos={setMovimientos}
             movimientos={movimientos}
-            CalculoFinal={CalculoFinal}
-            initialState={initialState}
-            inicial={inicial}
+            CalculoFinal = {CalculoFinal}
+            initialState = {initialState}
+            inicial = {inicial}
           />
         </Col>
         <Col lg="7">
@@ -90,15 +117,16 @@ function App() {
             movimientos={movimientos}
             setMovimientos={setMovimientos}
             movimiento={movimiento}
-            CalculoFinal={CalculoFinal}
-            formatNumber={formatNumber}
-            setEditar={setEditar}
-            final={final}
-            setMovimiento={setMovimiento}
+            handleCancelar={handleCancelar}
+            CalculoFinal = {CalculoFinal}
+            formatNumber = {formatNumber}
+            setEditar = {setEditar}
+            final = {final}
+            setMovimiento = {setMovimiento}
           />
         </Col>
       </Row>
-    </div>
+        </div>
   );
 }
 

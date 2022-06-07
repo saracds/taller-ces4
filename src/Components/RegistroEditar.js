@@ -59,7 +59,7 @@ const RegistroEditar = ({ initialState,  movimiento,  editar, setMovimiento, set
           handleShow();
         } else {
           setMovimientos([...movimientos, { ...movimiento, id: uuidv4() }]);
-          CalculoFinal(movimiento.tipo_movimiento, movimiento.cantidad);
+          CalculoFinal();
           setMessage({ title: "Registro Exitoso", body:`El ${movimiento.tipo_movimiento} fue agregado con éxito` })
           handleShow();
         }
@@ -74,7 +74,6 @@ const RegistroEditar = ({ initialState,  movimiento,  editar, setMovimiento, set
   const Editar = (id, tipo_movimiento, nombre, cantidad) => {
     const nuevoMovimiento = movimientos.map((movimiento) => movimiento.id === id ? { id, tipo_movimiento, nombre, cantidad } : movimiento);
     setMovimientos(nuevoMovimiento);
-    setEditar(null);
   };
 
 
