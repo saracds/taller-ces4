@@ -3,9 +3,7 @@ import React, { useState } from 'react'
 import { InputGroup, Form, FormControl, Row, Col } from 'react-bootstrap';
 import { BsSearch } from "react-icons/bs";
 
-const Busqueda = ({ movimientos, buscar, setBuscar, coincidencias, setCoincidencias }) => {
-
-    const [filtro, setFiltro] = useState("");
+const Busqueda = ({ movimientos, buscar, setBuscar, setCoincidencias, filtro, setFiltro }) => {
 
     const handleFiltro = (tipo) => setFiltro(tipo);
 
