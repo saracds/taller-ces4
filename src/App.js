@@ -28,21 +28,27 @@ function App() {
     let GastosTotal = 0;
     let totalFinal = 0;
 
+
    if(editar){
      if(movimiento.tipo_movimiento === "Ingreso"){
       if(movimiento.cantidad > editar.cantidad){
         totalFinal = parseFloat(final.replace("$", "").replace(".", "")) + (parseFloat(movimiento.cantidad) - parseFloat(editar.cantidad));
-      }else{
+      }else if(movimiento.cantidad < editar.cantidad){
         totalFinal = parseFloat(final.replace("$", "").replace(".", "")) - (parseFloat(editar.cantidad) - parseFloat(movimiento.cantidad));
+      }else{
+        totalFinal = parseFloat(final.replace("$", "").replace(".", "")) + parseFloat(movimiento.cantidad);
       }
      }else{
        if(movimiento.tipo_movimiento === "Gasto"){
         if(movimiento.cantidad > editar.cantidad){
+          alert("movimiento.cantidad > editar.cantidad");
           totalFinal = parseFloat(final.replace("$", "").replace(".", "")) - (parseFloat(movimiento.cantidad) - parseFloat(editar.cantidad));
         }else{
           if(movimiento.cantidad < editar.cantidad){
-            totalFinal = parseFloat(final.replace("$", "").replace(".", "")) + (parseFloat(editar.cantidad) - parseFloat(movimiento.cantidad));
+            alert("movimiento.cantidad < editar.cantidad")
+            totalFinal = parseFloat(final.replace("$", "").replace(".", "")) -  parseFloat(movimiento.cantidad);
           }else{
+            alert("ultimo")
             totalFinal = parseFloat(final.replace("$", "").replace(".", "")) - parseFloat(editar.cantidad);
           }
         }
@@ -56,7 +62,7 @@ function App() {
         GastosTotal += parseFloat(movimiento.cantidad);
       }else {
         if(tipo_movimiento === "Eliminar") {
-          GastosTotal += parseInt(cantidad);
+          GastosTotal += parseFloat(cantidad);
         } 
       }
     }

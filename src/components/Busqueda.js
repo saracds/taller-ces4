@@ -12,9 +12,9 @@ const Busqueda = ({ movimientos, buscar, setBuscar, coincidencias, setCoincidenc
     const BuscarCoincidencia = ({ target: { value } }) => {
         setBuscar(value);
         let movimientosCopy;
-        if (filtro == "Todos" || filtro === "") {
+        if (filtro === "Todos" || filtro === "") {
             movimientosCopy = movimientos.filter((movimiento) => movimiento.nombre.toLowerCase().includes(value.toLowerCase()))
-        } else if (filtro == "Ingreso") {
+        } else if (filtro === "Ingreso") {
             movimientosCopy = movimientos.filter((movimiento) => movimiento.nombre.toLowerCase().includes(value.toLowerCase()) && movimiento.tipo_movimiento == "Ingreso")
         } else {
             movimientosCopy = movimientos.filter((movimiento) => movimiento.nombre.toLowerCase().includes(value.toLowerCase()) && movimiento.tipo_movimiento == "Gasto")

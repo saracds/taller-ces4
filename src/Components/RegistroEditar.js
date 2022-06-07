@@ -52,9 +52,10 @@ const RegistroEditar = ({ initialState,  movimiento,  editar, setMovimiento, set
       let diferencia = parseInt(movimiento.cantidad) - parseInt(editar.cantidad);
       Editar(editar.id, movimiento.tipo_movimiento, movimiento.nombre, movimiento.cantidad);
       CalculoFinal(movimiento.tipo_movimiento, diferencia);
+      setEditar(null);
     }else{
       if(inicial !== 0){
-        if (movimiento.tipo_movimiento === "Gasto" && (parseFloat(final.replace("$", "").replace(".", "")) - parseFloat(movimiento.cantidad)) < 0) {
+        if ((movimiento.tipo_movimiento === "Gasto") && ((parseFloat(final.replace("$", "").replace(".", "")) - parseFloat(movimiento.cantidad)) < 0)) {
           setMessage({ title: "ERROR", body: "No cuenta con saldo suficiente para realizar este movimiento" })
           handleShow();
         } else {
