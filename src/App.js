@@ -44,7 +44,7 @@ function App() {
           totalFinal = parseFloat(final.replace("$", "").replace(".", "").replace(".", "")) - (parseFloat(movimiento.cantidad) - parseFloat(editar.cantidad));
         }else{
           if(movimiento.cantidad < editar.cantidad){
-            totalFinal = parseFloat(final.replace("$", "").replace(".", "").replace(".", "")) -  parseFloat(movimiento.cantidad);
+            totalFinal = parseFloat(final.replace("$", "").replace(".", "").replace(".", "")) +  (parseFloat(editar.cantidad) - parseFloat(movimiento.cantidad));
           }else{
             totalFinal = parseFloat(final.replace("$", "").replace(".", "").replace(".", "")) - parseFloat(editar.cantidad);
           }
